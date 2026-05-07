@@ -8,7 +8,7 @@ public interface IBusinessRepository
 
     int getAvailableCarCount();
 
-    int getTotalCarAmount();
+    int getTotalCarCount();
 
     BigDecimal getTotalActiveRentalPrice();
 

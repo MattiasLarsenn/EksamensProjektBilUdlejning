@@ -13,6 +13,7 @@ public class Damage
 
 
     //With damageId, intented for retrieving a damage object from the database
+    //Same goes for createdAt
     public Damage(int damageId, int rentalId, String description, BigDecimal price, LocalDate createdAt)
     {
         this.damageId = damageId;
@@ -23,12 +24,12 @@ public class Damage
     }
 
     //Without damageId, intented for creating a damage object, damageId will be auto incremented in the database
-    public Damage(int rentalId, String description, BigDecimal price, LocalDate createdAt)
+    //Same goes for createdAt
+    public Damage(int rentalId, String description, BigDecimal price)
     {
         this.rentalId = rentalId;
         this.description = description;
         this.price = price;
-        this.createdAt = createdAt;
     }
 
     public int getDamageId()
