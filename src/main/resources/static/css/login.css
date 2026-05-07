@@ -3,7 +3,11 @@
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
   background:
-    radial-gradient(circle at top left, rgba(255, 204, 77, 0.16), transparent 28%),
+    radial-gradient(
+      circle at top left,
+      rgba(255, 204, 77, 0.16),
+      transparent 28%
+    ),
     linear-gradient(135deg, #111015 0%, #1a1a22 48%, #22212a 100%);
 }
 

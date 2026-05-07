@@ -1,11 +1,11 @@
 package org.example.biludlejning.controllers;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
 import org.example.biludlejning.utility.ConnectionManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.sql.Connection;
-import java.sql.SQLException;
 
 @RestController
 public class TestController
