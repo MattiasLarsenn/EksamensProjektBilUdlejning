@@ -1,0 +1,163 @@
+body {
+    background: #18171c;
+    color: #fff;
+    font-family: 'Inter', Arial, sans-serif;
+    margin: 0;
+}
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+.sidebar {
+    width: 300px;
+    background: #1a1a1f;
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+.logo-circle {
+    background: #ffcc4d;
+    color: #232228;
+    font-weight: bold;
+    font-size: 1.5rem;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.logo-title {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+.logo-subtitle {
+    font-size: 0.9rem;
+    color: #aaa;
+}
+.role-section {
+    margin-bottom: 2rem;
+}
+.role-label {
+    font-size: 0.8rem;
+    color: #aaa;
+}
+.role-active {
+    background: #232228;
+    color: #ffcc4d;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+    font-weight: bold;
+    width: fit-content;
+}
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+nav li {
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    color: #fff;
+}
+nav li.active, nav li:hover {
+    background: #232228;
+    color: #ffcc4d;
+}
+.footer {
+    font-size: 0.8rem;
+    color: #aaa;
+    margin-top: 2rem;
+}
+main {
+    flex: 1;
+    padding: 3rem 4rem;
+}
+.header {
+    margin-bottom: 2rem;
+}
+.header h1 {
+    font-size: 2.5rem;
+    margin: 0;
+}
+.header .highlight {
+    color: #ffcc4d;
+}
+.header p {
+    color: #bdbdbd;
+    margin-top: 0.5rem;
+}
+.back-btn {
+    background: #232228;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 0.5rem 1.5rem;
+    margin-top: 1rem;
+    cursor: pointer;
+    float: right;
+}
+.damage-form {
+    background: #232228;
+    padding: 2rem;
+    border-radius: 16px;
+    max-width: 800px;
+    margin: 0 auto;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.3);
+}
+.damage-form label {
+    display: block;
+    margin: 1rem 0 0.5rem;
+    font-weight: 500;
+}
+.damage-form input,
+.damage-form select {
+    width: 100%;
+    padding: 0.75rem;
+    margin-top: 0.25rem;
+    border-radius: 8px;
+    border: none;
+    background: #2d2c33;
+    color: #fff;
+    font-size: 1rem;
+}
+.damage-form .row {
+    display: flex;
+    gap: 1rem;
+}
+.damage-form .row label {
+    flex: 1;
+}
+.damage-form .buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+.damage-form .cancel {
+    background: #333;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.damage-form .register {
+    background: #ffcc4d;
+    color: #232228;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
