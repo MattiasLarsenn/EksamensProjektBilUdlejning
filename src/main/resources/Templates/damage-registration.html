@@ -1,64 +1,61 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="da" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Registrer skade</title>
-    <link rel="stylesheet" href="/css/damage-registration.css">
-</head>
-<body>
-<div class="container">
-    <aside class="sidebar">
-        <div class="logo">
-            <div class="logo-circle">BA</div>
-            <div>
-                <div class="logo-title">Bilabonnement</div>
-                <div class="logo-subtitle">.dk - Intern platform</div>
-            </div>
-        </div>
-        <div class="role-section">
-            <div class="role-label">AKTIV ROLLE</div>
-            <div class="role-active">DAMAGE</div>
-        </div>
-        <nav>
-            <ul>
-                <li>Forside</li>
-                <li>Dataregistrering</li>
-                <li class="active">Skade & Reparation</li>
-                <li>Forretningsudvikling</li>
-            </ul>
-        </nav>
-        <div class="footer">
-        </div>
-    </aside>
-    <main>
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/sidebar.css" />
+    <link rel="stylesheet" href="/css/damage-registration.css" />
+  </head>
+  <body>
+    <div class="container">
+      <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
+      <main>
         <div class="header">
-            <h1>Registrer <span class="highlight">skade</span></h1>
-            <p>Opret en ny skadesregistrering. Bilen markeres automatisk som "Under reparation".</p>
-            <button class="back-btn">&larr; Tilbage</button>
+          <h1>Registrer <span class="highlight">skade</span></h1>
+          <p>
+            Opret en ny skadesregistrering. Bilen markeres automatisk som "Under
+            reparation".
+          </p>
+          <button class="back-btn">&larr; Tilbage</button>
         </div>
-        <form class="damage-form" th:action="@{/damage-registration}" method="post">
-            <label>
-                Lejeaftale ID
-                <input type="number" name="rentalId" placeholder="Indtast lejeaftale ID" required>
-            </label>
-            <label>
-                Beskrivelse af skade
-                <input type="text" name="description" placeholder="F.eks. Rids på venstre bagdør" required>
-            </label>
-            <label>
-                Reparationspris (DKK)
-                <input type="number" name="price" step="0.01" required>
-            </label>
-            <label>
-                Rapporteret dato
-                <input type="date" name="createdAt" required>
-            </label>
-            <div class="buttons">
-                <button type="button" class="cancel">Annuller</button>
-                <button type="submit" class="register">Registrer skade</button>
-            </div>
+        <form
+          class="damage-form"
+          th:action="@{/damage-registration}"
+          method="post"
+        >
+          <label>
+            Lejeaftale ID
+            <input
+              type="number"
+              name="rentalId"
+              placeholder="Indtast lejeaftale ID"
+              required
+            />
+          </label>
+          <label>
+            Beskrivelse af skade
+            <input
+              type="text"
+              name="description"
+              placeholder="F.eks. Rids på venstre bagdør"
+              required
+            />
+          </label>
+          <label>
+            Reparationspris (DKK)
+            <input type="number" name="price" step="0.01" required />
+          </label>
+          <label>
+            Rapporteret dato
+            <input type="date" name="createdAt" required />
+          </label>
+          <div class="buttons">
+            <button type="button" class="cancel">Annuller</button>
+            <button type="submit" class="register">Registrer skade</button>
+          </div>
         </form>
-    </main>
-</div>
-</body>
+      </main>
+    </div>
+  </body>
 </html>
