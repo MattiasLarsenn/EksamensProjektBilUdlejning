@@ -17,3 +17,6 @@ target/
 # OS
 .DS_Store
 Thumbs.db
+
+# Local database/session files
+Bilabonoment.session.sql

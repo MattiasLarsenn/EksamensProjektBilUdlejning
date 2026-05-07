@@ -1,0 +1,11 @@
+/* Base layout */
+body {
+  background: #18171c;
+  color: #fff;
+  font-family: "Inter", Arial, sans-serif;
+  margin: 0;
+}
+.container {
+  display: flex;
+  min-height: 100vh;
+}
