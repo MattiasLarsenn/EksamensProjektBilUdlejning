@@ -12,7 +12,7 @@ public interface IRentalAgreementRepository
 
     List<RentalAgreement> getAllRentalAgreements();
 
-    boolean isCarRented(int carId);
+    boolean isRentalAgreementActive(int rentalId);
 
 
 }
