@@ -110,3 +110,15 @@ main {
 .damage-list tbody tr:hover {
   background: #2d2c33;
 }
+.status-red {
+  color: #ff4d4f;
+  font-weight: bold;
+}
+.status-yellow {
+  color: #ffd600;
+  font-weight: bold;
+}
+.status-green {
+  color: #4caf50;
+  font-weight: bold;
+}

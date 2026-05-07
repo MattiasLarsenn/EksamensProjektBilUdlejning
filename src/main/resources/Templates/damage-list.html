@@ -25,6 +25,7 @@
                 <th>Skade ID</th>
                 <th>Lejeaftale ID</th>
                 <th>Beskrivelse</th>
+                  <th>Skade-status</th>
                 <th>Pris (DKK)</th>
                 <th>Rapporteret dato</th>
               </tr>
@@ -34,6 +35,11 @@
                 <td th:text="${damage.damageId}"></td>
                 <td th:text="${damage.rentalId}"></td>
                 <td th:text="${damage.description}"></td>
+                <td>
+                  <span th:text="${damage.status}"
+                        th:classappend="${damage.status} == 'Slem skade' ? 'status-red' : (damage.status == 'Mellem skade' ? 'status-yellow' : (damage.status == 'Lille skade' ? 'status-green' : ''))">
+                  </span>
+                </td>
                 <td th:text="${damage.price}"></td>
                 <td th:text="${#temporals.format(damage.createdAt, 'dd-MM-yyyy')}"></td>
               </tr>
