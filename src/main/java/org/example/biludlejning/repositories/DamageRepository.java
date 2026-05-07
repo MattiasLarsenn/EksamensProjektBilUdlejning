@@ -3,6 +3,7 @@ package org.example.biludlejning.repositories;
 import org.example.biludlejning.models.Damage;
 import org.example.biludlejning.repositories.repositoryInterfaces.IDamageRepository;
 import org.example.biludlejning.utility.ConnectionManager;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class DamageRepository implements IDamageRepository
 {
 

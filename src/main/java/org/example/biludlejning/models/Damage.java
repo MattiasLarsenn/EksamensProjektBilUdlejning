@@ -81,4 +81,15 @@ public class Damage
     {
         this.createdAt = createdAt;
     }
+
+    public String getStatus() {
+        if (price == null) return "Ukendt";
+        if (price.compareTo(new BigDecimal("5000")) >= 0) {
+            return "Slem skade";
+        } else if (price.compareTo(new BigDecimal("2000")) >= 0) {
+            return "Mellem skade";
+        } else {
+            return "Lille skade";
+        }
+    }
 }
