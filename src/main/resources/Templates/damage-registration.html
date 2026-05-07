@@ -17,7 +17,7 @@
             Opret en ny skadesregistrering. Bilen markeres automatisk som "Under
             reparation".
           </p>
-          <button class="back-btn">&larr; Tilbage</button>
+          <button class="back-btn" onclick="window.location.href='/damage-list'">&larr; Tilbage</button>
         </div>
         <form
           class="damage-form"
@@ -45,10 +45,6 @@
           <label>
             Reparationspris (DKK)
             <input type="number" name="price" step="0.01" required />
-          </label>
-          <label>
-            Rapporteret dato
-            <input type="date" name="createdAt" required />
           </label>
           <div class="buttons">
             <button type="button" class="cancel">Annuller</button>

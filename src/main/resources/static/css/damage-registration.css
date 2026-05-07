@@ -25,7 +25,10 @@ main {
   padding: 0.5rem 1.5rem;
   margin-top: 1rem;
   cursor: pointer;
-  float: right;
+  position: absolute;
+  top: 5rem;
+  right: calc(37% - 400px);
+  left: auto;
 }
 .damage-form {
   background: #232228;
@@ -80,4 +83,30 @@ main {
   border-radius: 8px;
   cursor: pointer;
   font-weight: bold;
+}
+.damage-list {
+  background: #232228;
+  padding: 2rem;
+  border-radius: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
+}
+.damage-list table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #fff;
+}
+.damage-list th,
+.damage-list td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #333;
+}
+.damage-list th {
+  background: #2d2c33;
+  font-weight: 500;
+}
+.damage-list tbody tr:hover {
+  background: #2d2c33;
 }

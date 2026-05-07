@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Skadesliste</title>
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/sidebar.css" />
+    <link rel="stylesheet" href="/css/damage-registration.css" />
+  </head>
+  <body>
+    <div class="container">
+      <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
+      <main>
+        <div class="header">
+          <h1>Registrerede <span class="highlight">skader</span></h1>
+          <p>
+            Oversigt over alle registrerede skader.
+          </p>
+          <button class="back-btn" onclick="window.location.href='/damage-registration'">&larr; Tilbage</button>
+        </div>
+        <div class="damage-list">
+          <table>
+            <thead>
+              <tr>
+                <th>Skade ID</th>
+                <th>Lejeaftale ID</th>
+                <th>Beskrivelse</th>
+                <th>Pris (DKK)</th>
+                <th>Rapporteret dato</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="damage : ${damages}">
+                <td th:text="${damage.damageId}"></td>
+                <td th:text="${damage.rentalId}"></td>
+                <td th:text="${damage.description}"></td>
+                <td th:text="${damage.price}"></td>
+                <td th:text="${#temporals.format(damage.createdAt, 'dd-MM-yyyy')}"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

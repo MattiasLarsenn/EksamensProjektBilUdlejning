@@ -1,1 +1,14 @@
-C:\Users\matti\IdeaProjects\EksamensProjektBilUdlejning\src\main\java\org\example\biludlejning\BilUdlejningApplication.java
+/Users/filipklemensnorrekaas/Documents/Myfirstjavaprogram/EksamensProjektBilUdlejning/src/main/java/org/example/biludlejning/BilUdlejningApplication.java
+/Users/filipklemensnorrekaas/Documents/Myfirstjavaprogram/EksamensProjektBilUdlejning/src/main/java/org/example/biludlejning/controllers/PageController.java
+/Users/filipklemensnorrekaas/Documents/Myfirstjavaprogram/EksamensProjektBilUdlejning/src/main/java/org/example/biludlejning/controllers/TestController.java
+/Users/filipklemensnorrekaas/Documents/Myfirstjavaprogram/EksamensProjektBilUdlejning/src/main/java/org/example/biludlejning/models/Car.java
+/Users/filipklemensnorrekaas/Documents/Myfirstjavaprogram/EksamensProjektBilUdlejning/src/main/java/org/example/biludlejning/models/Customer.java
+/Users/filipklemensnorrekaas/Documents/Myfirstjavaprogram/EksamensProjektBilUdlejning/src/main/java/org/example/biludlejning/models/Damage.java
+/Users/filipklemensnorrekaas/Documents/Myfirstjavaprogram/EksamensProjektBilUdlejning/src/main/java/org/example/biludlejning/models/RentalAgreement.java
+/Users/filipklemensnorrekaas/Documents/Myfirstjavaprogram/EksamensProjektBilUdlejning/src/main/java/org/example/biludlejning/repositories/BusinessRepository.java
+/Users/filipklemensnorrekaas/Documents/Myfirstjavaprogram/EksamensProjektBilUdlejning/src/main/java/org/example/biludlejning/repositories/DamageRepository.java
+/Users/filipklemensnorrekaas/Documents/Myfirstjavaprogram/EksamensProjektBilUdlejning/src/main/java/org/example/biludlejning/repositories/RentalAgreementRepository.java
+/Users/filipklemensnorrekaas/Documents/Myfirstjavaprogram/EksamensProjektBilUdlejning/src/main/java/org/example/biludlejning/repositories/repositoryInterfaces/IBusinessRepository.java
+/Users/filipklemensnorrekaas/Documents/Myfirstjavaprogram/EksamensProjektBilUdlejning/src/main/java/org/example/biludlejning/repositories/repositoryInterfaces/IDamageRepository.java
+/Users/filipklemensnorrekaas/Documents/Myfirstjavaprogram/EksamensProjektBilUdlejning/src/main/java/org/example/biludlejning/repositories/repositoryInterfaces/IRentalAgreementRepository.java
+/Users/filipklemensnorrekaas/Documents/Myfirstjavaprogram/EksamensProjektBilUdlejning/src/main/java/org/example/biludlejning/utility/ConnectionManager.java
