@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ny lejeaftale</title>
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/sidebar.css" />
+    <link rel="stylesheet" href="/css/rental-agreement.css" />
+  </head>
+  <body>
+    <div class="container">
+      <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
+      <main>
+        <div class="header">
+          <h1>Ny <span class="highlight">lejeaftale</span></h1>
+          <p>
+            Opret en ny abonnementsaftale. Bilen markeres automatisk som
+            udlejet.
+          </p>
+          <button
+            class="back-btn"
+            onclick="window.location.href = '/damage-registration'"
+          >
+            &larr; Tilbage
+          </button>
+        </div>
+
+        <form
+          class="rental-form"
+          th:action="@{/rental-agreement}"
+          method="post"
+        >
+          <div class="row">
+            <label>
+              Car ID
+              <input
+                type="number"
+                name="carId"
+                placeholder="Indtast car ID"
+                required
+              />
+            </label>
+            <label>
+              Price (DKK)
+              <input
+                type="number"
+                name="price"
+                step="0.01"
+                min="0"
+                placeholder="Indtast pris"
+                required
+              />
+            </label>
+          </div>
+
+          <div class="row">
+            <label>
+              Customer ID
+              <input
+                type="number"
+                name="customerId"
+                placeholder="Indtast customer ID"
+                required
+              />
+            </label>
+            <label>
+              Status
+              <input
+                type="text"
+                name="status"
+                placeholder="F.eks. Active"
+                required
+              />
+            </label>
+          </div>
+
+          <div class="row">
+            <label>
+              Start date
+              <input type="date" name="startDate" required />
+            </label>
+            <label>
+              Slut date
+              <input type="date" name="endDate" required />
+            </label>
+          </div>
+
+          <div class="buttons">
+            <button type="reset" class="cancel">Annuller</button>
+            <button type="submit" class="register">Opret aftale</button>
+          </div>
+        </form>
+      </main>
+    </div>
+  </body>
+</html>
