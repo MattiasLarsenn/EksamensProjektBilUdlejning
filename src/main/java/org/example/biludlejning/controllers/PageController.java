@@ -2,9 +2,11 @@ package org.example.biludlejning.controllers;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import org.example.biludlejning.models.Damage;
 import org.example.biludlejning.models.RentalAgreement;
+import org.example.biludlejning.repositories.BusinessRepository;
 import org.example.biludlejning.repositories.DamageRepository;
 import org.example.biludlejning.repositories.RentalAgreementRepository;
 import org.springframework.stereotype.Controller;
@@ -16,12 +18,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class PageController
 {
+    private final BusinessRepository businessRepository;
     private final DamageRepository damageRepository;
     private final RentalAgreementRepository rentalAgreementRepository;
 
-    public PageController(DamageRepository damageRepository,
+    public PageController(BusinessRepository businessRepository,
+                          DamageRepository damageRepository,
                           RentalAgreementRepository rentalAgreementRepository)
     {
+        this.businessRepository = businessRepository;
         this.damageRepository = damageRepository;
         this.rentalAgreementRepository = rentalAgreementRepository;
     }
@@ -32,15 +37,23 @@ public class PageController
         return "login";
     }
 
-    @GetMapping("/damage-registration")
-    public String showDamageRegistration()
+    @GetMapping("/home")
+    public String showHome(Model model)
     {
+        return showBusinessDevelopment(model);
+    }
+
+    @GetMapping("/damage-registration")
+    public String showDamageRegistration(Model model)
+    {
+        addSidebarState(model, "repairs", "DAMAGE");
         return "damage-registration";
     }
 
     @GetMapping("/damage-list")
     public String showDamageList(Model model)
     {
+        addSidebarState(model, "repairs", "DAMAGE");
         model.addAttribute("damages", damageRepository.getAllDamages());
         return "damage-list";
     }
@@ -59,9 +72,44 @@ public class PageController
     }
 
     @GetMapping("/rental-agreement")
-    public String showRentalAgreementPage()
+    public String showRentalAgreementPage(Model model)
     {
+        addSidebarState(model, "registration", "REGISTRATION");
         return "rental-agreement";
+    }
+
+    @GetMapping("/business-development")
+    public String showBusinessDevelopment(Model model)
+    {
+        int activeRentalCount = businessRepository.getActiveRentalCount();
+        int availableCarCount = businessRepository.getAvailableCarCount();
+        int totalCarCount = businessRepository.getTotalCarCount();
+        BigDecimal monthlyRevenue = businessRepository.getTotalActiveRentalPrice();
+        BigDecimal totalDamageCost = businessRepository.getTotalDamageCost();
+        int openDamageCount = damageRepository.getAllDamages().size();
+
+        int leasedCarCount = activeRentalCount;
+        int inRepairCount = Math.min(openDamageCount, Math.max(totalCarCount - availableCarCount - leasedCarCount, 0));
+        int readyForSaleCount = Math.max(totalCarCount - availableCarCount - leasedCarCount - inRepairCount, 0);
+        BigDecimal totalFleetValue = monthlyRevenue.multiply(BigDecimal.valueOf(12));
+
+        List<RentalAgreement> activeAgreements = rentalAgreementRepository.getAllRentalAgreements()
+                .stream()
+                .filter(agreement -> "active".equalsIgnoreCase(agreement.getStatus()))
+                .toList();
+
+        model.addAttribute("activeRentalCount", activeRentalCount);
+        model.addAttribute("monthlyRevenue", monthlyRevenue);
+        model.addAttribute("totalFleetValue", totalFleetValue);
+        model.addAttribute("openDamageCount", openDamageCount);
+        model.addAttribute("totalDamageCost", totalDamageCost);
+        model.addAttribute("availableCarCount", availableCarCount);
+        model.addAttribute("inRepairCount", inRepairCount);
+        model.addAttribute("leasedCarCount", leasedCarCount);
+        model.addAttribute("readyForSaleCount", readyForSaleCount);
+        model.addAttribute("activeAgreements", activeAgreements);
+        addSidebarState(model, "business", "BUSINESS");
+        return "business-development";
     }
 
     @PostMapping("/rental-agreement")
@@ -78,5 +126,11 @@ public class PageController
         rentalAgreementRepository.createRentalAgreement(rentalAgreement);
 
         return "redirect:/rental-agreement";
+    }
+
+    private void addSidebarState(Model model, String activeMenu, String activeRole)
+    {
+        model.addAttribute("activeMenu", activeMenu);
+        model.addAttribute("activeRole", activeRole);
     }
 }
