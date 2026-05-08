@@ -2,8 +2,11 @@ package org.example.biludlejning.controllers;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+
 import org.example.biludlejning.models.Damage;
+import org.example.biludlejning.models.RentalAgreement;
 import org.example.biludlejning.repositories.DamageRepository;
+import org.example.biludlejning.repositories.RentalAgreementRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,10 +17,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class PageController
 {
     private final DamageRepository damageRepository;
+    private final RentalAgreementRepository rentalAgreementRepository;
 
-    public PageController(DamageRepository damageRepository)
+    public PageController(DamageRepository damageRepository,
+                          RentalAgreementRepository rentalAgreementRepository)
     {
         this.damageRepository = damageRepository;
+        this.rentalAgreementRepository = rentalAgreementRepository;
     }
 
     @GetMapping("/")
@@ -50,5 +56,27 @@ public class PageController
         damageRepository.createDamage(damage);
 
         return "redirect:/damage-list";
+    }
+
+    @GetMapping("/rental-agreement")
+    public String showRentalAgreementPage()
+    {
+        return "rental-agreement";
+    }
+
+    @PostMapping("/rental-agreement")
+    public String submitRentalAgreement(@RequestParam int rentalId,
+                                        @RequestParam int carId,
+                                        @RequestParam int customerId,
+                                        @RequestParam LocalDate startDate,
+                                        @RequestParam LocalDate endDate,
+                                        @RequestParam BigDecimal price,
+                                        @RequestParam String status)
+    {
+        RentalAgreement rentalAgreement = new RentalAgreement(carId, customerId, startDate, endDate, price, status);
+        rentalAgreement.setRentalId(rentalId);
+        rentalAgreementRepository.createRentalAgreement(rentalAgreement);
+
+        return "redirect:/rental-agreement";
     }
 }
