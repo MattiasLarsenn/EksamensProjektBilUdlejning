@@ -29,20 +29,33 @@
 
           <article class="kpi-card">
             <h2>Samlet vaerdi</h2>
-            <p class="kpi-value" th:text="${#numbers.formatDecimal(totalFleetValue, 0, 'POINT', 0, 'COMMA')} + ' kr.'">0 kr.</p>
+            <p
+              class="kpi-value"
+              th:text="${#numbers.formatDecimal(totalFleetValue, 0, 'POINT', 0, 'COMMA')} + ' kr.'"
+            >
+              0 kr.
+            </p>
             <small>udlejede biler</small>
           </article>
 
           <article class="kpi-card">
             <h2>Maanedlig omsaetning</h2>
-            <p class="kpi-value" th:text="${#numbers.formatDecimal(monthlyRevenue, 0, 'POINT', 0, 'COMMA')} + ' kr.'">0 kr.</p>
+            <p
+              class="kpi-value"
+              th:text="${#numbers.formatDecimal(monthlyRevenue, 0, 'POINT', 0, 'COMMA')} + ' kr.'"
+            >
+              0 kr.
+            </p>
             <small>i alt pr. md</small>
           </article>
 
           <article class="kpi-card">
             <h2>Aabne skader</h2>
             <p class="kpi-value" th:text="${openDamageCount}">0</p>
-            <small th:text="${#numbers.formatDecimal(totalDamageCost, 0, 'POINT', 0, 'COMMA')} + ' kr. skannet'">0 kr. skannet</small>
+            <small
+              th:text="${#numbers.formatDecimal(totalDamageCost, 0, 'POINT', 0, 'COMMA')} + ' kr. skannet'"
+              >0 kr. skannet</small
+            >
           </article>
         </section>
 
@@ -83,14 +96,26 @@
               </thead>
               <tbody>
                 <tr th:if="${#lists.isEmpty(activeAgreements)}">
-                  <td colspan="5" class="empty">Ingen aktive aftaler fundet.</td>
+                  <td colspan="5" class="empty">
+                    Ingen aktive aftaler fundet.
+                  </td>
                 </tr>
                 <tr th:each="agreement, stat : ${activeAgreements}">
                   <td th:text="' #' + ${stat.count}">#1</td>
-                  <td th:text="'Kunde ID ' + ${agreement.customerId}">Kunde ID 1</td>
+                  <td th:text="'Kunde ID ' + ${agreement.customerId}">
+                    Kunde ID 1
+                  </td>
                   <td th:text="'Bil ID ' + ${agreement.carId}">Bil ID 1</td>
-                  <td th:text="${#temporals.format(agreement.startDate, 'dd-MM-yy')} + ' - ' + ${#temporals.format(agreement.endDate, 'dd-MM-yy')}">01-09-25 - 31-08-26</td>
-                  <td th:text="${#numbers.formatDecimal(agreement.price, 0, 'POINT', 0, 'COMMA')} + ' kr.'">4.990 kr.</td>
+                  <td
+                    th:text="${#temporals.format(agreement.startDate, 'dd-MM-yy')} + ' - ' + ${#temporals.format(agreement.endDate, 'dd-MM-yy')}"
+                  >
+                    01-09-25 - 31-08-26
+                  </td>
+                  <td
+                    th:text="${#numbers.formatDecimal(agreement.price, 0, 'POINT', 0, 'COMMA')} + ' kr.'"
+                  >
+                    4.990 kr.
+                  </td>
                 </tr>
               </tbody>
             </table>
