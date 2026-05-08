@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Forretningsudvikling</title>
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/sidebar.css" />
+    <link rel="stylesheet" href="/css/business-development.css" />
+  </head>
+  <body>
+    <div class="container">
+      <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
+      <main class="business-page">
+        <header class="page-header">
+          <h1>Forretnings<span>udvikling</span></h1>
+          <p>
+            KPI-overblik over flaaden. Antal udlejede biler, samlet vaerdi,
+            maanedlig omsaetning og aabne skader.
+          </p>
+        </header>
+
+        <section class="kpi-grid">
+          <article class="kpi-card kpi-card-highlight">
+            <h2>Udlejet nu</h2>
+            <p class="kpi-value" th:text="${activeRentalCount}">0</p>
+            <small>aktive aftaler</small>
+          </article>
+
+          <article class="kpi-card">
+            <h2>Samlet vaerdi</h2>
+            <p class="kpi-value" th:text="${#numbers.formatDecimal(totalFleetValue, 0, 'POINT', 0, 'COMMA')} + ' kr.'">0 kr.</p>
+            <small>udlejede biler</small>
+          </article>
+
+          <article class="kpi-card">
+            <h2>Maanedlig omsaetning</h2>
+            <p class="kpi-value" th:text="${#numbers.formatDecimal(monthlyRevenue, 0, 'POINT', 0, 'COMMA')} + ' kr.'">0 kr.</p>
+            <small>i alt pr. md</small>
+          </article>
+
+          <article class="kpi-card">
+            <h2>Aabne skader</h2>
+            <p class="kpi-value" th:text="${openDamageCount}">0</p>
+            <small th:text="${#numbers.formatDecimal(totalDamageCost, 0, 'POINT', 0, 'COMMA')} + ' kr. skannet'">0 kr. skannet</small>
+          </article>
+        </section>
+
+        <section class="panel">
+          <h3>Fladestatus</h3>
+          <div class="status-grid">
+            <article class="status-box">
+              <h4>AVAILABLE</h4>
+              <p th:text="${availableCarCount}">0</p>
+            </article>
+            <article class="status-box">
+              <h4>IN_REPAIR</h4>
+              <p th:text="${inRepairCount}">0</p>
+            </article>
+            <article class="status-box">
+              <h4>LEASED</h4>
+              <p th:text="${leasedCarCount}">0</p>
+            </article>
+            <article class="status-box">
+              <h4>READY_FOR_SALE</h4>
+              <p th:text="${readyForSaleCount}">0</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h3>Aktive aftaler</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Kunde</th>
+                  <th>Bil</th>
+                  <th>Periode</th>
+                  <th>Pris/md</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:if="${#lists.isEmpty(activeAgreements)}">
+                  <td colspan="5" class="empty">Ingen aktive aftaler fundet.</td>
+                </tr>
+                <tr th:each="agreement, stat : ${activeAgreements}">
+                  <td th:text="' #' + ${stat.count}">#1</td>
+                  <td th:text="'Kunde ID ' + ${agreement.customerId}">Kunde ID 1</td>
+                  <td th:text="'Bil ID ' + ${agreement.carId}">Bil ID 1</td>
+                  <td th:text="${#temporals.format(agreement.startDate, 'dd-MM-yy')} + ' - ' + ${#temporals.format(agreement.endDate, 'dd-MM-yy')}">01-09-25 - 31-08-26</td>
+                  <td th:text="${#numbers.formatDecimal(agreement.price, 0, 'POINT', 0, 'COMMA')} + ' kr.'">4.990 kr.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

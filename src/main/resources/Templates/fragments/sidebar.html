@@ -11,13 +11,22 @@
       </div>
       <div class="role-section">
         <div class="role-label">AKTIV ROLLE</div>
-        <div class="role-active">DAMAGE</div>
+        <div class="role-active" th:text="${activeRole != null ? activeRole : 'DAMAGE'}">DAMAGE</div>
       </div>
       <nav>
         <ul>
-          <li>Dataregistrering</li>
-          <li class="active">Skade &amp; Reparation</li>
-          <li>Forretningsudvikling</li>
+          <li th:classappend="${activeMenu} == 'home' ? 'active'">
+            <a href="/business-development" th:href="@{/business-development}">Forside</a>
+          </li>
+          <li th:classappend="${activeMenu} == 'registration' ? 'active'">
+            <a href="/rental-agreement" th:href="@{/rental-agreement}">Dataregistrering</a>
+          </li>
+          <li th:classappend="${activeMenu} == 'repairs' ? 'active'">
+            <a href="/damage-registration" th:href="@{/damage-registration}">Skade &amp; Reparation</a>
+          </li>
+          <li th:classappend="${activeMenu} == 'business' ? 'active'">
+            <a href="/business-development" th:href="@{/business-development}">Forretningsudvikling</a>
+          </li>
         </ul>
       </nav>
       <div class="footer"></div>

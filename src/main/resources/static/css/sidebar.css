@@ -60,6 +60,11 @@ nav li {
   cursor: pointer;
   color: #fff;
 }
+nav li a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
 nav li.active,
 nav li:hover {
   background: #232228;
