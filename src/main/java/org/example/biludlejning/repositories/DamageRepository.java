@@ -3,7 +3,6 @@ package org.example.biludlejning.repositories;
 import org.example.biludlejning.models.Damage;
 import org.example.biludlejning.repositories.repositoryInterfaces.IDamageRepository;
 import org.example.biludlejning.utility.ConnectionManager;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -11,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,11 +34,13 @@ public class DamageRepository implements IDamageRepository
             ps.setInt(1, damage.getRentalId());
             ps.setString(2, damage.getDescription());
             ps.setBigDecimal(3, damage.getPrice());
-            ps.executeUpdate();
+            int rowsAffected = ps.executeUpdate();
+            System.out.println("Damage created successfully. Rows affected: " + rowsAffected);
         }
         catch (SQLException e)
         {
             System.out.println("Error while inserting damage into database: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -92,10 +92,12 @@ public class DamageRepository implements IDamageRepository
                         rs.getDate("created_at").toLocalDate()
                 ));
             }
+            System.out.println("Retrieved " + damages.size() + " damages from database");
         }
         catch (SQLException e)
         {
             System.out.println("Error while retrieving damages: " + e.getMessage());
+            e.printStackTrace();
         }
         return damages;
     }
@@ -156,5 +158,40 @@ public class DamageRepository implements IDamageRepository
             System.out.println("Error while retrieving damage price by rental id: " + e.getMessage());
         }
         return BigDecimal.ZERO;
+    }
+
+    public void updateDamage(Damage damage)
+    {
+        String sql = "UPDATE damage SET rental_id = ?, description = ?, price = ? WHERE damage_id = ?";
+
+        try (Connection database = conn.getConnection();
+             PreparedStatement ps = database.prepareStatement(sql))
+        {
+            ps.setInt(1, damage.getRentalId());
+            ps.setString(2, damage.getDescription());
+            ps.setBigDecimal(3, damage.getPrice());
+            ps.setInt(4, damage.getDamageId());
+            ps.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Error while updating damage: " + e.getMessage());
+        }
+    }
+
+    public void deleteDamage(int damageId)
+    {
+        String sql = "DELETE FROM damage WHERE damage_id = ?";
+
+        try (Connection database = conn.getConnection();
+             PreparedStatement ps = database.prepareStatement(sql))
+        {
+            ps.setInt(1, damageId);
+            ps.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Error while deleting damage: " + e.getMessage());
+        }
     }
 }

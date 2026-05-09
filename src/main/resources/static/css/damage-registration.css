@@ -122,3 +122,26 @@ main {
   color: #4caf50;
   font-weight: bold;
 }
+.action-btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  margin-right: 0.5rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.edit-btn {
+  background: #4caf50;
+  color: white;
+}
+.edit-btn:hover {
+  background: #45a049;
+}
+.delete-btn {
+  background: #ff4d4f;
+  color: white;
+}
+.delete-btn:hover {
+  background: #ff7875;
+}

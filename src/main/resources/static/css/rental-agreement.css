@@ -141,6 +141,55 @@ main {
   color: #1f2130;
 }
 
+.rental-list {
+  background: #181d2b;
+  border: 1px solid rgba(137, 149, 180, 0.17);
+  padding: 1.86rem 1.92rem;
+  border-radius: 14px;
+  max-width: 1180px;
+  margin: 2rem auto 0;
+  box-shadow: 0 16px 40px rgba(2, 5, 15, 0.55);
+}
+
+.rental-list h2 {
+  color: #f6f7fb;
+  margin: 0 0 1.5rem;
+  font-size: 1.8rem;
+}
+
+.rental-list table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #d3d8e8;
+}
+
+.rental-list th {
+  background: #0b111c;
+  color: #7e859c;
+  padding: 0.82rem 1.02rem;
+  text-align: left;
+  font-size: 0.91rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  border-bottom: 1px solid #293248;
+}
+
+.rental-list td {
+  padding: 0.82rem 1.02rem;
+  border-bottom: 1px solid #293248;
+}
+
+.rental-list tbody tr:hover {
+  background: #0b111c;
+}
+
+.rental-list p {
+  color: #7e859c;
+  text-align: center;
+  margin: 1rem 0;
+}
+
 @media (max-width: 980px) {
   main {
     padding: 1.4rem 1.15rem 2rem;

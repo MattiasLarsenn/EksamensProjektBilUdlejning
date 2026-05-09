@@ -62,18 +62,83 @@ public class PageController
     public String submitDamageRegistration(@RequestParam int rentalId,
                                            @RequestParam String description,
                                            @RequestParam BigDecimal price,
-                                           @RequestParam LocalDate createdAt)
+                                           @RequestParam(required = false) LocalDate createdAt)
     {
-        Damage damage = new Damage(rentalId, description, price);
-        damage.setCreatedAt(createdAt);
-        damageRepository.createDamage(damage);
+        try
+        {
+            // Validate that rental agreement exists
+            RentalAgreement rentalAgreement = rentalAgreementRepository.getRentalAgreementByRentalId(rentalId);
+            if (rentalAgreement == null)
+            {
+                System.out.println("Error: Rental agreement with ID " + rentalId + " does not exist");
+                return "redirect:/damage-registration";
+            }
 
+            Damage damage = new Damage(rentalId, description, price);
+            if (createdAt != null)
+            {
+                damage.setCreatedAt(createdAt);
+            }
+            else
+            {
+                damage.setCreatedAt(LocalDate.now());
+            }
+            damageRepository.createDamage(damage);
+            System.out.println("Damage registered successfully");
+        }
+        catch (Exception e)
+        {
+            System.out.println("Error registering damage: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return "redirect:/damage-list";
+    }
+
+    @GetMapping("/damage-edit")
+    public String showDamageEdit(@RequestParam int damageId, Model model)
+    {
+        Damage damage = damageRepository.getDamageById(damageId);
+        if (damage != null)
+        {
+            model.addAttribute("damage", damage);
+            addSidebarState(model, "repairs", "DAMAGE");
+            return "damage-edit";
+        }
+        return "redirect:/damage-list";
+    }
+
+    @PostMapping("/damage-edit")
+    public String submitDamageEdit(@RequestParam(required = false) Integer damageId,
+                                   @RequestParam(required = false) Integer rentalId,
+                                   @RequestParam(required = false) String description,
+                                   @RequestParam(required = false) BigDecimal price)
+    {
+        if (damageId != null && damageId > 0 && rentalId != null && rentalId > 0 && description != null && price != null)
+        {
+            Damage damage = damageRepository.getDamageById(damageId);
+            if (damage != null)
+            {
+                damage.setRentalId(rentalId);
+                damage.setDescription(description);
+                damage.setPrice(price);
+                damageRepository.updateDamage(damage);
+            }
+        }
+        return "redirect:/damage-list";
+    }
+
+    @GetMapping("/damage-delete")
+    public String deleteDamage(@RequestParam int damageId)
+    {
+        damageRepository.deleteDamage(damageId);
         return "redirect:/damage-list";
     }
 
     @GetMapping("/rental-agreement")
     public String showRentalAgreementPage(Model model)
     {
+        model.addAttribute("rentalAgreements", rentalAgreementRepository.getAllRentalAgreements());
         addSidebarState(model, "registration", "REGISTRATION");
         return "rental-agreement";
     }
@@ -113,18 +178,34 @@ public class PageController
     }
 
     @PostMapping("/rental-agreement")
-    public String submitRentalAgreement(@RequestParam int rentalId,
-                                        @RequestParam int carId,
-                                        @RequestParam int customerId,
-                                        @RequestParam LocalDate startDate,
-                                        @RequestParam LocalDate endDate,
-                                        @RequestParam BigDecimal price,
-                                        @RequestParam String status)
+    public String submitRentalAgreement(@RequestParam(required = false) Integer rentalId,
+                                        @RequestParam(required = false) Integer carId,
+                                        @RequestParam(required = false) Integer customerId,
+                                        @RequestParam(required = false) String startDate,
+                                        @RequestParam(required = false) String endDate,
+                                        @RequestParam(required = false) BigDecimal price,
+                                        @RequestParam(required = false) String status)
     {
-        RentalAgreement rentalAgreement = new RentalAgreement(carId, customerId, startDate, endDate, price, status);
-        rentalAgreement.setRentalId(rentalId);
-        rentalAgreementRepository.createRentalAgreement(rentalAgreement);
-
+        if (carId != null && customerId != null && startDate != null && endDate != null && price != null && status != null)
+        {
+            try
+            {
+                LocalDate start = LocalDate.parse(startDate);
+                LocalDate end = LocalDate.parse(endDate);
+                RentalAgreement rentalAgreement = new RentalAgreement(carId, customerId, start, end, price, status);
+                if (rentalId != null && rentalId > 0)
+                {
+                    rentalAgreement.setRentalId(rentalId);
+                }
+                rentalAgreementRepository.createRentalAgreement(rentalAgreement);
+                System.out.println("Rental agreement created successfully");
+            }
+            catch (Exception e)
+            {
+                System.out.println("Error creating rental agreement: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
         return "redirect:/rental-agreement";
     }
 

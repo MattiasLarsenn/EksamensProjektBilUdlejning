@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Rediger skade</title>
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/sidebar.css" />
+    <link rel="stylesheet" href="/css/damage-registration.css" />
+  </head>
+  <body>
+    <div class="container">
+      <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
+      <main>
+        <div class="header">
+          <h1>Rediger <span class="highlight">skade</span></h1>
+          <p>
+            Rediger en eksisterende skadesregistrering.
+          </p>
+          <button class="back-btn" onclick="window.location.href='/damage-list'">&larr; Tilbage</button>
+        </div>
+        <form
+          class="damage-form"
+          th:action="@{/damage-edit}"
+          method="post"
+        >
+          <input type="hidden" name="damageId" th:value="${damage.damageId}" />
+          <label>
+            Lejeaftale ID
+            <input
+              type="number"
+              name="rentalId"
+              th:value="${damage.rentalId}"
+              placeholder="Indtast lejeaftale ID"
+              min="1"
+              required
+            />
+          </label>
+          <label>
+            Beskrivelse af skade
+            <input
+              type="text"
+              name="description"
+              th:value="${damage.description}"
+              placeholder="F.eks. Rids på venstre bagdør"
+              required
+            />
+          </label>
+          <label>
+            Reparationspris (DKK)
+            <input type="number" name="price" step="0.01" th:value="${damage.price}" min="0" required />
+          </label>
+          <div class="buttons">
+            <button type="button" class="cancel" onclick="window.location.href='/damage-list'">Annuller</button>
+            <button type="submit" class="register">Gem ændringer</button>
+          </div>
+        </form>
+      </main>
+    </div>
+  </body>
+</html>
+
