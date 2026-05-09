@@ -1,5 +1,8 @@
 package org.example.biludlejning.controllers;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 import org.example.biludlejning.models.Damage;
 import org.example.biludlejning.models.RentalAgreement;
 import org.example.biludlejning.services.DamageService;
@@ -9,9 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Controller
 public class DamageController

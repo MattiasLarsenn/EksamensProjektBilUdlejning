@@ -1,5 +1,8 @@
 package org.example.biludlejning.controllers;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.example.biludlejning.models.RentalAgreement;
 import org.example.biludlejning.services.BusinessService;
 import org.example.biludlejning.services.DamageService;
@@ -7,9 +10,6 @@ import org.example.biludlejning.services.RentalAgreementService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 @Controller
 public class BusinessController

@@ -1,10 +1,10 @@
 package org.example.biludlejning.services;
 
+import java.util.List;
+
 import org.example.biludlejning.models.RentalAgreement;
 import org.example.biludlejning.repositories.RentalAgreementRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class RentalAgreementService
