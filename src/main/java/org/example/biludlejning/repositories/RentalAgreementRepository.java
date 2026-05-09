@@ -65,11 +65,13 @@ public class RentalAgreementRepository implements IRentalAgreementRepository
             ps.setDate(4, Date.valueOf(rentalAgreement.getEndDate()));
             ps.setBigDecimal(5, rentalAgreement.getPrice());
             ps.setString(6, rentalAgreement.getStatus());
-            ps.executeUpdate();
+            int rowsAffected = ps.executeUpdate();
+            System.out.println("Rental agreement created successfully. Rows affected: " + rowsAffected);
         }
         catch(SQLException e)
         {
             System.out.println("Error creating rental agreement: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -95,11 +97,13 @@ public class RentalAgreementRepository implements IRentalAgreementRepository
                         rs.getString("status")
                 ));
             }
+            System.out.println("Retrieved " + rentalAgreements.size() + " rental agreements from database");
         }
 
         catch(SQLException e)
         {
             System.out.println("Error retrieving all rental agreements: " + e.getMessage());
+            e.printStackTrace();
         }
         return rentalAgreements;
     }

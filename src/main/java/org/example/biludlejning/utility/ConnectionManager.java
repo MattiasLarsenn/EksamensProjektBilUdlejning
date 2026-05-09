@@ -18,6 +18,8 @@ public class ConnectionManager
 
     public Connection getConnection() throws SQLException
     {
-        return dataSource.getConnection();
+        Connection connection = dataSource.getConnection();
+        connection.setAutoCommit(true);
+        return connection;
     }
 }
