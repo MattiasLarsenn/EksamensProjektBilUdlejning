@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Kundeliste</title>
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/sidebar.css" />
+    <link rel="stylesheet" href="/css/customer.css" />
+  </head>
+  <body>
+    <div class="container">
+      <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
+      <main>
+        <div class="header">
+          <h1>Registrerede <span class="highlight">kunder</span></h1>
+          <p>Oversigt over alle registrerede kunder.</p>
+          <button
+            class="back-btn"
+            onclick="window.location.href = '/customer-registration'"
+          >
+            &larr; Nye kunde
+          </button>
+        </div>
+        <div class="customer-list">
+          <table>
+            <thead>
+              <tr>
+                <th>Kunde ID</th>
+                <th>Navn</th>
+                <th>Email</th>
+                <th>Telefon</th>
+                <th>Handlinger</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="customer : ${customers}">
+                <td th:text="${customer.customerId}"></td>
+                <td th:text="${customer.name}"></td>
+                <td th:text="${customer.email}"></td>
+                <td th:text="${customer.phone}"></td>
+                <td>
+                  <a
+                    th:href="@{/customer-edit(customerId=${customer.customerId})}"
+                    class="action-btn edit-btn"
+                    >Rediger</a
+                  >
+                  <a
+                    th:href="@{/customer-delete(customerId=${customer.customerId})}"
+                    class="action-btn delete-btn"
+                    onclick="
+                      return confirm(
+                        'Er du sikker på at du vil slette denne kunde?',
+                      );
+                    "
+                    >Slet</a
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

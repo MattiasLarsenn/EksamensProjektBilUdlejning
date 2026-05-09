@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Registrer kunde</title>
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/sidebar.css" />
+    <link rel="stylesheet" href="/css/customer.css" />
+  </head>
+  <body>
+    <div class="container">
+      <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
+      <main>
+        <div class="header">
+          <h1>Registrer <span class="highlight">kunde</span></h1>
+          <p>Opret en ny kunderegistrering i systemet.</p>
+          <button
+            class="back-btn"
+            onclick="window.location.href = '/customer-list'"
+          >
+            &larr; Tilbage
+          </button>
+        </div>
+        <form
+          class="customer-form"
+          th:action="@{/customer-registration}"
+          method="post"
+        >
+          <label>
+            Navn
+            <input
+              type="text"
+              name="name"
+              placeholder="Indtast kundens navn"
+              required
+            />
+          </label>
+          <label>
+            Email
+            <input
+              type="email"
+              name="email"
+              placeholder="Indtast email adresse"
+              required
+            />
+          </label>
+          <label>
+            Telefon
+            <input
+              type="tel"
+              name="phone"
+              placeholder="Indtast telefonnummer"
+              required
+            />
+          </label>
+          <div class="buttons">
+            <button
+              type="button"
+              class="cancel"
+              onclick="window.location.href = '/customer-list'"
+            >
+              Annuller
+            </button>
+            <button type="submit" class="register">Registrer kunde</button>
+          </div>
+        </form>
+      </main>
+    </div>
+  </body>
+</html>
