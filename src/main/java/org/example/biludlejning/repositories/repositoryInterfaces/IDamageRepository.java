@@ -16,4 +16,8 @@ public interface IDamageRepository
     List<Damage> getAllDamagesByRentalId(int rentalId);
 
     BigDecimal getTotalDamagePriceByRentalId(int rentalId);
+
+    void deleteDamage(int damageId);
+
+    void updateDamage(Damage damage);
 }
