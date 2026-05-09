@@ -21,6 +21,11 @@ public class RentalAgreementService
         return rentalAgreementRepository.getRentalAgreementByRentalId(rentalId);
     }
 
+    public RentalAgreement getRentalAgreementByRentalId(int rentalId)
+    {
+        return rentalAgreementRepository.getRentalAgreementByRentalId(rentalId);
+    }
+
     public void createRentalAgreement(RentalAgreement rentalAgreement)
     {
         rentalAgreementRepository.createRentalAgreement(rentalAgreement);
