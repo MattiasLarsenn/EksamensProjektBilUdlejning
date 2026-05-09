@@ -28,6 +28,7 @@
                   <th>Skade-status</th>
                 <th>Pris (DKK)</th>
                 <th>Rapporteret dato</th>
+                <th>Handlinger</th>
               </tr>
             </thead>
             <tbody>
@@ -42,6 +43,10 @@
                 </td>
                 <td th:text="${damage.price}"></td>
                 <td th:text="${#temporals.format(damage.createdAt, 'dd-MM-yyyy')}"></td>
+                <td>
+                  <a th:href="@{/damage-edit(damageId=${damage.damageId})}" class="action-btn edit-btn">Rediger</a>
+                  <a th:href="@{/damage-delete(damageId=${damage.damageId})}" class="action-btn delete-btn" onclick="return confirm('Er du sikker på at du vil slette denne skade?');">Slet</a>
+                </td>
               </tr>
             </tbody>
           </table>
