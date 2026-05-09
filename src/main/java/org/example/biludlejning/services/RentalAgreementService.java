@@ -2,9 +2,15 @@ package org.example.biludlejning.services;
 
 import java.util.List;
 
+import org.example.biludlejning.exceptions.InvalidPriceException;
+import org.example.biludlejning.exceptions.InvalidRentalDateException;
+import org.example.biludlejning.exceptions.InvalidRentalStatusException;
 import org.example.biludlejning.models.RentalAgreement;
 import org.example.biludlejning.repositories.RentalAgreementRepository;
+import org.example.biludlejning.validation.PriceValidation;
+import org.example.biludlejning.validation.RentalStatusValidation;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.ext.javatime.deser.LocalDateDeserializer;
 
 @Service
 public class RentalAgreementService
@@ -16,11 +22,6 @@ public class RentalAgreementService
         this.rentalAgreementRepository = rentalAgreementRepository;
     }
 
-    public RentalAgreement getRentalAgreementRepositoryByRentalId(int rentalId)
-    {
-        return rentalAgreementRepository.getRentalAgreementByRentalId(rentalId);
-    }
-
     public RentalAgreement getRentalAgreementByRentalId(int rentalId)
     {
         return rentalAgreementRepository.getRentalAgreementByRentalId(rentalId);
@@ -28,6 +29,38 @@ public class RentalAgreementService
 
     public void createRentalAgreement(RentalAgreement rentalAgreement)
     {
+        if (rentalAgreement == null)
+        {
+            throw new IllegalArgumentException("Rental agreement cannot be null");
+        }
+
+        if (rentalAgreement.getCustomerId() <= 0)
+        {
+            throw new IllegalArgumentException("Customer id must be greater than 0");
+        }
+
+        if (rentalAgreement.getCarId() <= 0)
+        {
+            throw new IllegalArgumentException("Car id must be greater than 0");
+        }
+
+        if (rentalAgreement.getStartDate() == null
+            || rentalAgreement.getEndDate() == null
+            || !rentalAgreement.getEndDate().isAfter(rentalAgreement.getStartDate()))
+        {
+            throw new InvalidRentalDateException("Invalid dates for rental agreement");
+        }
+
+        if (!RentalStatusValidation.isStatusValid(rentalAgreement.getStatus()))
+        {
+            throw new InvalidRentalStatusException("Invalid status for rental agreement");
+        }
+
+        if (!PriceValidation.isPriceValid(rentalAgreement.getPrice()))
+        {
+            throw new InvalidPriceException("Invalid price for rental agreement");
+        }
+
         rentalAgreementRepository.createRentalAgreement(rentalAgreement);
     }
 
@@ -40,6 +73,5 @@ public class RentalAgreementService
     {
         return rentalAgreementRepository.isRentalAgreementActive(rentalId);
     }
-
 
 }
