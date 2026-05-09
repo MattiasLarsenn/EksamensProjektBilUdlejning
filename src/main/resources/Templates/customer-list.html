@@ -13,10 +13,13 @@
       <main>
         <div class="header">
           <h1>Registrerede <span class="highlight">kunder</span></h1>
-          <p>
-            Oversigt over alle registrerede kunder.
-          </p>
-          <button class="back-btn" onclick="window.location.href='/customer-registration'">&larr; Nye kunde</button>
+          <p>Oversigt over alle registrerede kunder.</p>
+          <button
+            class="back-btn"
+            onclick="window.location.href = '/customer-registration'"
+          >
+            &larr; Nye kunde
+          </button>
         </div>
         <div class="customer-list">
           <table>
@@ -36,8 +39,21 @@
                 <td th:text="${customer.email}"></td>
                 <td th:text="${customer.phone}"></td>
                 <td>
-                  <a th:href="@{/customer-edit(customerId=${customer.customerId})}" class="action-btn edit-btn">Rediger</a>
-                  <a th:href="@{/customer-delete(customerId=${customer.customerId})}" class="action-btn delete-btn" onclick="return confirm('Er du sikker på at du vil slette denne kunde?');">Slet</a>
+                  <a
+                    th:href="@{/customer-edit(customerId=${customer.customerId})}"
+                    class="action-btn edit-btn"
+                    >Rediger</a
+                  >
+                  <a
+                    th:href="@{/customer-delete(customerId=${customer.customerId})}"
+                    class="action-btn delete-btn"
+                    onclick="
+                      return confirm(
+                        'Er du sikker på at du vil slette denne kunde?',
+                      );
+                    "
+                    >Slet</a
+                  >
                 </td>
               </tr>
             </tbody>

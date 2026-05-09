@@ -13,10 +13,13 @@
       <main>
         <div class="header">
           <h1>Registrer <span class="highlight">kunde</span></h1>
-          <p>
-            Opret en ny kunderegistrering i systemet.
-          </p>
-          <button class="back-btn" onclick="window.location.href='/customer-list'">&larr; Tilbage</button>
+          <p>Opret en ny kunderegistrering i systemet.</p>
+          <button
+            class="back-btn"
+            onclick="window.location.href = '/customer-list'"
+          >
+            &larr; Tilbage
+          </button>
         </div>
         <form
           class="customer-form"
@@ -51,7 +54,13 @@
             />
           </label>
           <div class="buttons">
-            <button type="button" class="cancel" onclick="window.location.href='/customer-list'">Annuller</button>
+            <button
+              type="button"
+              class="cancel"
+              onclick="window.location.href = '/customer-list'"
+            >
+              Annuller
+            </button>
             <button type="submit" class="register">Registrer kunde</button>
           </div>
         </form>
