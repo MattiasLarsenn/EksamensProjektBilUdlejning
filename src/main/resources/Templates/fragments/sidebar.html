@@ -35,6 +35,9 @@
               >Forretningsudvikling</a
             >
           </li>
+          <li th:classappend="${activeMenu} == 'customers' ? 'active'">
+            <a href="/customer-list" th:href="@{/customer-list}">Kundeliste</a>
+          </li>
         </ul>
       </nav>
       <div class="footer"></div>
