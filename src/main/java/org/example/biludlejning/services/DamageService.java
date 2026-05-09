@@ -1,11 +1,11 @@
 package org.example.biludlejning.services;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.example.biludlejning.models.Damage;
 import org.example.biludlejning.repositories.DamageRepository;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 
 @Service
@@ -41,5 +41,15 @@ public class DamageService
     public BigDecimal getTotalDamagePriceByRentalId(int rentalId)
     {
         return damageRepository.getTotalDamagePriceByRentalId(rentalId);
+    }
+
+    public void updateDamage(Damage damage)
+    {
+        damageRepository.updateDamage(damage);
+    }
+
+    public void deleteDamage(int damageId)
+    {
+        damageRepository.deleteDamage(damageId);
     }
 }
