@@ -7,7 +7,10 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class CustomerRepository implements ICustomerRepository
@@ -36,4 +39,67 @@ public class CustomerRepository implements ICustomerRepository
             System.out.println("Error while inserting customer to the database: " + e.getMessage());
         }
     }
+
+    public void updateCustomer(Customer customer)
+    {
+        String sql = "UPDATE customer SET name = ?, email = ?, phone = ? WHERE customer_id = ?";
+
+        try (Connection database = conn.getConnection();
+             PreparedStatement ps = database.prepareStatement(sql))
+        {
+            ps.setString(1, customer.getName());
+            ps.setString(2, customer.getEmail());
+            ps.setString(3, customer.getPhone());
+            ps.setInt(4, customer.getCustomerId());
+            ps.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Error while updating customer: " + e.getMessage());
+        }
+    }
+
+    public void deleteCustomer(int customerId)
+    {
+        String sql = "DELETE FROM customer WHERE customer_id = ?";
+
+        try (Connection database = conn.getConnection();
+             PreparedStatement ps = database.prepareStatement(sql))
+        {
+            ps.setInt(1, customerId);
+            ps.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Error while deleting customer: " + e.getMessage());
+        }
+    }
+
+    public List<Customer> getAllCustomers()
+    {
+        String sql = "SELECT * FROM customer";
+        List<Customer> customers = new ArrayList<>();
+
+        try (Connection database = conn.getConnection();
+             PreparedStatement ps = database.prepareStatement(sql))
+        {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next())
+            {
+                customers.add(new Customer(
+                        rs.getInt("customer_id"),
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("phone")
+                ));
+            }
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Error while retrieving list of customer: " + e.getMessage());
+        }
+        return customers;
+    }
+
+
 }
