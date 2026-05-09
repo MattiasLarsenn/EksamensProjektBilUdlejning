@@ -42,14 +42,10 @@ public class DamageService
     {
         return damageRepository.getTotalDamagePriceByRentalId(rentalId);
     }
-
-    public void updateDamage(Damage damage)
-    {
+    public void updateDamage(Damage damage){
         damageRepository.updateDamage(damage);
     }
-
-    public void deleteDamage(int damageId)
-    {
+    public void deleteDamage(int damageId){
         damageRepository.deleteDamage(damageId);
     }
 }
