@@ -91,7 +91,7 @@ public class GlobalExceptionHandler
     }
 
     @ExceptionHandler(InvalidRentalStatusException.class)
-    public ModelAndView handleInvalidRentalSatus(InvalidRentalStatusException e)
+    public ModelAndView handleInvalidRentalStatus(InvalidRentalStatusException e)
     {
         ModelAndView mav = new ModelAndView("errors/error");
 
