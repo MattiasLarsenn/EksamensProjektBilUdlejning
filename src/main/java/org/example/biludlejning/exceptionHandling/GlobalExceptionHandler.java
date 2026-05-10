@@ -1,0 +1,103 @@
+package org.example.biludlejning.exceptionHandling;
+
+import org.example.biludlejning.exceptions.*;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.sql.SQLException;
+
+@ControllerAdvice
+public class GlobalExceptionHandler
+{
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ModelAndView handleIllegalArgument(IllegalArgumentException e)
+    {
+        ModelAndView mav = new ModelAndView("errors/error");
+
+        mav.addObject("errorMessage", e.getMessage());
+
+        return mav;
+    }
+
+    @ExceptionHandler(SQLException.class)
+    public ModelAndView handleSqlException(SQLException e)
+    {
+        ModelAndView mav = new ModelAndView("errors/error");
+
+        mav.addObject("errorMessage", e.getMessage());
+
+        return mav;
+    }
+
+    @ExceptionHandler(InvalidDescriptionException.class)
+    public ModelAndView handleInvalidDescription(InvalidDescriptionException e)
+    {
+        ModelAndView mav = new ModelAndView("errors/error");
+
+        mav.addObject("errorMessage", e.getMessage());
+
+        return mav;
+    }
+
+    @ExceptionHandler(InvalidEmailException.class)
+    public ModelAndView handleInvalidEmail(InvalidEmailException e)
+    {
+        ModelAndView mav = new ModelAndView("errors/error");
+
+        mav.addObject("errorMessage", e.getMessage());
+
+        return mav;
+    }
+
+    @ExceptionHandler(InvalidNameException.class)
+    public ModelAndView handleInvalidName(InvalidNameException e)
+    {
+        ModelAndView mav = new ModelAndView("errors/error");
+
+        mav.addObject("errorMessage", e.getMessage());
+
+        return mav;
+    }
+
+    @ExceptionHandler(InvalidPhoneNumberException.class)
+    public ModelAndView handleInvalidPhoneNumber(InvalidPhoneNumberException e)
+    {
+        ModelAndView mav = new ModelAndView("errors/error");
+
+        mav.addObject("errorMessage", e.getMessage());
+
+        return mav;
+    }
+
+    @ExceptionHandler(InvalidPriceException.class)
+    public ModelAndView handleInvalidPrice(InvalidPriceException e)
+    {
+        ModelAndView mav = new ModelAndView("errors/error");
+
+        mav.addObject("errorMessage", e.getMessage());
+
+        return mav;
+    }
+
+    @ExceptionHandler(InvalidRentalDateException.class)
+    public ModelAndView handleInvalidRentalDate(InvalidRentalDateException e)
+    {
+        ModelAndView mav = new ModelAndView("errors/error");
+
+        mav.addObject("errorMessage", e.getMessage());
+
+        return mav;
+    }
+
+    @ExceptionHandler(InvalidRentalStatusException.class)
+    public ModelAndView handleInvalidRentalSatus(InvalidRentalStatusException e)
+    {
+        ModelAndView mav = new ModelAndView("errors/error");
+
+        mav.addObject("errorMessage", e.getMessage());
+
+        return mav;
+    }
+
+}

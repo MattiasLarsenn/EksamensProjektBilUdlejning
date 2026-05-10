@@ -24,6 +24,10 @@ public class RentalAgreementService
 
     public RentalAgreement getRentalAgreementByRentalId(int rentalId)
     {
+        if (rentalId <= 0)
+        {
+            throw new IllegalArgumentException("Rental id must be greater than 0");
+        }
         return rentalAgreementRepository.getRentalAgreementByRentalId(rentalId);
     }
 
