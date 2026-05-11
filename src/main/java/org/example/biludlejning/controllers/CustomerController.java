@@ -32,16 +32,9 @@ public class CustomerController
                                              @RequestParam String email,
                                              @RequestParam String phone)
     {
-        try
-        {
-            Customer customer = new Customer(0, name, email, phone);
-            customerService.createCustomer(customer);
-            System.out.println("Customer registered successfully");
-        }
-        catch (Exception e)
-        {
-            System.out.println("Error registering customer: " + e.getMessage());
-        }
+        Customer customer = new Customer(0, name, email, phone);
+        customerService.createCustomer(customer);
+        System.out.println("Customer registered successfully");
 
         return "redirect:/customer-list";
     }

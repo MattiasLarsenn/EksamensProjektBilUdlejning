@@ -2,6 +2,7 @@ package org.example.biludlejning.services;
 
 
 import org.example.biludlejning.repositories.BusinessRepository;
+import org.example.biludlejning.repositories.repositoryInterfaces.IBusinessRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -9,9 +10,9 @@ import java.math.BigDecimal;
 @Service
 public class BusinessService
 {
-    private final BusinessRepository businessRepository;
+    private final IBusinessRepository businessRepository;
 
-    public BusinessService(BusinessRepository businessRepository)
+    public BusinessService(IBusinessRepository businessRepository)
     {
         this.businessRepository = businessRepository;
     }

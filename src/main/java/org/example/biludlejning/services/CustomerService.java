@@ -5,6 +5,7 @@ import org.example.biludlejning.exceptions.InvalidNameException;
 import org.example.biludlejning.exceptions.InvalidPhoneNumberException;
 import org.example.biludlejning.models.Customer;
 import org.example.biludlejning.repositories.CustomerRepository;
+import org.example.biludlejning.repositories.repositoryInterfaces.ICustomerRepository;
 import org.example.biludlejning.validation.EmailValidation;
 import org.example.biludlejning.validation.NameValidation;
 import org.example.biludlejning.validation.PhoneNumberValidation;
@@ -15,9 +16,9 @@ import java.util.List;
 @Service
 public class CustomerService
 {
-    private final CustomerRepository customerRepository;
+    private final ICustomerRepository customerRepository;
 
-    public CustomerService(CustomerRepository customerRepository)
+    public CustomerService(ICustomerRepository customerRepository)
     {
         this.customerRepository = customerRepository;
     }

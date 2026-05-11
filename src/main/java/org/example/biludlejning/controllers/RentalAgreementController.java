@@ -33,7 +33,7 @@ public class RentalAgreementController
     }
 
     @PostMapping("/rental-agreement")
-    public String submitRentalAgreement(@RequestParam(required = false) Integer rentalId,
+    public String submitRentalAgreement(
                                         @RequestParam(required = false) Integer carId,
                                         @RequestParam(required = false) Integer customerId,
                                         @RequestParam(required = false) String startDate,
@@ -42,37 +42,14 @@ public class RentalAgreementController
                                         @RequestParam(required = false) String status,
                                         Model model)
     {
-        if (carId != null && customerId != null && startDate != null && endDate != null && price != null && status != null)
-        {
-            try
-            {
-                LocalDate start = LocalDate.parse(startDate);
-                LocalDate end = LocalDate.parse(endDate);
-                RentalAgreement rentalAgreement = new RentalAgreement(carId, customerId, start, end, price, status);
-                if (rentalId != null && rentalId > 0)
-                {
-                    rentalAgreement.setRentalId(rentalId);
-                }
-                rentalAgreementService.createRentalAgreement(rentalAgreement);
-                System.out.println("Rental agreement created successfully");
-            }
-            catch (IllegalArgumentException e)
-            {
-                System.out.println("Validation error: " + e.getMessage());
-                model.addAttribute("error", e.getMessage());
-                model.addAttribute("rentalAgreements", rentalAgreementService.getAllRentalAgreements());
-                sidebarModelHelper.addSidebarState(model, "registration", "REGISTRATION");
-                return "rental-agreement";
-            }
-            catch (Exception e)
-            {
-                System.out.println("Error creating rental agreement: " + e.getMessage());
-                model.addAttribute("error", "An unexpected error occurred while creating the rental agreement");
-                model.addAttribute("rentalAgreements", rentalAgreementService.getAllRentalAgreements());
-                sidebarModelHelper.addSidebarState(model, "registration", "REGISTRATION");
-                return "rental-agreement";
-            }
-        }
+
+        LocalDate start = LocalDate.parse(startDate);
+        LocalDate end = LocalDate.parse(endDate);
+        RentalAgreement rentalAgreement = new RentalAgreement(carId, customerId, start, end, price, status);
+        rentalAgreementService.createRentalAgreement(rentalAgreement);
+        System.out.println("Rental agreement created successfully");
+
+
         return "redirect:/rental-agreement";
     }
 }

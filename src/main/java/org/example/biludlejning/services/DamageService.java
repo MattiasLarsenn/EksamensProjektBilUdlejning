@@ -3,10 +3,12 @@ package org.example.biludlejning.services;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.example.biludlejning.exceptions.DamageNotFoundException;
 import org.example.biludlejning.exceptions.InvalidDescriptionException;
 import org.example.biludlejning.exceptions.InvalidPriceException;
 import org.example.biludlejning.models.Damage;
 import org.example.biludlejning.repositories.DamageRepository;
+import org.example.biludlejning.repositories.repositoryInterfaces.IDamageRepository;
 import org.example.biludlejning.validation.DescriptionValidation;
 import org.example.biludlejning.validation.PriceValidation;
 import org.springframework.stereotype.Service;
@@ -15,9 +17,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class DamageService
 {
-    private final DamageRepository damageRepository;
+    private final IDamageRepository damageRepository;
 
-    public DamageService(DamageRepository damageRepository)
+    public DamageService(IDamageRepository damageRepository)
     {
         this.damageRepository = damageRepository;
     }
@@ -54,7 +56,14 @@ public class DamageService
             throw new IllegalArgumentException("Damage id must be greater than 0");
         }
 
-        return damageRepository.getDamageById(damageId);
+        Damage damage = damageRepository.getDamageById(damageId);
+
+        if (damage == null)
+        {
+            throw new DamageNotFoundException("No damage found with damage id: " + damageId);
+        }
+
+        return damage;
     }
 
     public List<Damage> getAllDamages()
@@ -78,6 +87,7 @@ public class DamageService
         {
             throw new IllegalArgumentException("Rental id must be greater than 0");
         }
+
 
         return damageRepository.getTotalDamagePriceByRentalId(rentalId);
     }
