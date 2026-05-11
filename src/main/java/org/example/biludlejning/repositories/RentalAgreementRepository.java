@@ -122,7 +122,7 @@ public class RentalAgreementRepository implements IRentalAgreementRepository
             {
                 String status = rs.getString("status");
 
-                if (status.equalsIgnoreCase("active"))
+                if (status.equalsIgnoreCase("aktiv"))
                 {
                     return true;
                 }

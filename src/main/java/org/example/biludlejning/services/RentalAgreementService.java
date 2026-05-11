@@ -7,6 +7,7 @@ import org.example.biludlejning.exceptions.InvalidRentalDateException;
 import org.example.biludlejning.exceptions.InvalidRentalStatusException;
 import org.example.biludlejning.models.RentalAgreement;
 import org.example.biludlejning.repositories.RentalAgreementRepository;
+import org.example.biludlejning.repositories.repositoryInterfaces.IRentalAgreementRepository;
 import org.example.biludlejning.validation.PriceValidation;
 import org.example.biludlejning.validation.RentalStatusValidation;
 import org.springframework.stereotype.Service;
@@ -15,9 +16,9 @@ import tools.jackson.databind.ext.javatime.deser.LocalDateDeserializer;
 @Service
 public class RentalAgreementService
 {
-    private final RentalAgreementRepository rentalAgreementRepository;
+    private final IRentalAgreementRepository rentalAgreementRepository;
 
-    public RentalAgreementService(RentalAgreementRepository rentalAgreementRepository)
+    public RentalAgreementService(IRentalAgreementRepository rentalAgreementRepository)
     {
         this.rentalAgreementRepository = rentalAgreementRepository;
     }
