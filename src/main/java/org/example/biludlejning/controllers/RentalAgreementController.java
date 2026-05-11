@@ -39,7 +39,8 @@ public class RentalAgreementController
                                         @RequestParam(required = false) String startDate,
                                         @RequestParam(required = false) String endDate,
                                         @RequestParam(required = false) BigDecimal price,
-                                        @RequestParam(required = false) String status)
+                                        @RequestParam(required = false) String status,
+                                        Model model)
     {
         if (carId != null && customerId != null && startDate != null && endDate != null && price != null && status != null)
         {
@@ -55,9 +56,21 @@ public class RentalAgreementController
                 rentalAgreementService.createRentalAgreement(rentalAgreement);
                 System.out.println("Rental agreement created successfully");
             }
+            catch (IllegalArgumentException e)
+            {
+                System.out.println("Validation error: " + e.getMessage());
+                model.addAttribute("error", e.getMessage());
+                model.addAttribute("rentalAgreements", rentalAgreementService.getAllRentalAgreements());
+                sidebarModelHelper.addSidebarState(model, "registration", "REGISTRATION");
+                return "rental-agreement";
+            }
             catch (Exception e)
             {
                 System.out.println("Error creating rental agreement: " + e.getMessage());
+                model.addAttribute("error", "An unexpected error occurred while creating the rental agreement");
+                model.addAttribute("rentalAgreements", rentalAgreementService.getAllRentalAgreements());
+                sidebarModelHelper.addSidebarState(model, "registration", "REGISTRATION");
+                return "rental-agreement";
             }
         }
         return "redirect:/rental-agreement";

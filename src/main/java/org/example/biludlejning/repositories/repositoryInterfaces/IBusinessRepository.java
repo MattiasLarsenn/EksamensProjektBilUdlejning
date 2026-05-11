@@ -14,4 +14,7 @@ public interface IBusinessRepository
 
     BigDecimal getTotalDamageCost();
 
+    boolean carExists(int carId);
+
+    boolean isCarRented(int carId);
 }

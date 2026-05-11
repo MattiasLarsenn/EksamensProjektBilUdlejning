@@ -144,4 +144,49 @@ public class BusinessRepository implements IBusinessRepository
         }
         return BigDecimal.ZERO;
     }
+
+    public boolean carExists(int carId)
+    {
+        String sql = "SELECT COUNT(*) FROM car WHERE car_id = ?";
+
+        try (Connection database = conn.getConnection();
+             PreparedStatement ps = database.prepareStatement(sql))
+        {
+            ps.setInt(1, carId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next())
+            {
+                return rs.getInt(1) > 0;
+            }
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Error while checking if car exists: " + e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean isCarRented(int carId)
+    {
+        String sql = "SELECT COUNT(*) FROM rentalAgreement WHERE car_id = ? AND status = ?";
+
+        try (Connection database = conn.getConnection();
+             PreparedStatement ps = database.prepareStatement(sql))
+        {
+            ps.setInt(1, carId);
+            ps.setString(2, "aktiv");
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next())
+            {
+                return rs.getInt(1) > 0;
+            }
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Error while checking if car is rented: " + e.getMessage());
+        }
+        return false;
+    }
 }

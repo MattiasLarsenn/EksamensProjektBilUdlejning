@@ -6,6 +6,8 @@ import org.example.biludlejning.exceptions.InvalidPriceException;
 import org.example.biludlejning.exceptions.InvalidRentalDateException;
 import org.example.biludlejning.exceptions.InvalidRentalStatusException;
 import org.example.biludlejning.models.RentalAgreement;
+import org.example.biludlejning.repositories.BusinessRepository;
+import org.example.biludlejning.repositories.CustomerRepository;
 import org.example.biludlejning.repositories.RentalAgreementRepository;
 import org.example.biludlejning.validation.PriceValidation;
 import org.example.biludlejning.validation.RentalStatusValidation;
@@ -16,10 +18,16 @@ import tools.jackson.databind.ext.javatime.deser.LocalDateDeserializer;
 public class RentalAgreementService
 {
     private final RentalAgreementRepository rentalAgreementRepository;
+    private final BusinessRepository businessRepository;
+    private final CustomerRepository customerRepository;
 
-    public RentalAgreementService(RentalAgreementRepository rentalAgreementRepository)
+    public RentalAgreementService(RentalAgreementRepository rentalAgreementRepository,
+                                  BusinessRepository businessRepository,
+                                  CustomerRepository customerRepository)
     {
         this.rentalAgreementRepository = rentalAgreementRepository;
+        this.businessRepository = businessRepository;
+        this.customerRepository = customerRepository;
     }
 
     public RentalAgreement getRentalAgreementByRentalId(int rentalId)
@@ -63,6 +71,24 @@ public class RentalAgreementService
         if (!PriceValidation.isPriceValid(rentalAgreement.getPrice()))
         {
             throw new InvalidPriceException("Invalid price for rental agreement");
+        }
+
+        // Check if car exists
+        if (!businessRepository.carExists(rentalAgreement.getCarId()))
+        {
+            throw new IllegalArgumentException("Car with ID " + rentalAgreement.getCarId() + " does not exist");
+        }
+
+        // Check if customer exists
+        if (!customerRepository.customerExists(rentalAgreement.getCustomerId()))
+        {
+            throw new IllegalArgumentException("Customer with ID " + rentalAgreement.getCustomerId() + " does not exist");
+        }
+
+        // Check if car is already rented
+        if (businessRepository.isCarRented(rentalAgreement.getCarId()))
+        {
+            throw new IllegalArgumentException("Car with ID " + rentalAgreement.getCarId() + " is already rented");
         }
 
         rentalAgreementRepository.createRentalAgreement(rentalAgreement);
