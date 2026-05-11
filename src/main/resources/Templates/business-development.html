@@ -28,7 +28,7 @@
           </article>
 
           <article class="kpi-card">
-            <h2>Samlet vaerdi</h2>
+            <h2>Samlet værdi</h2>
             <p
               class="kpi-value"
               th:text="${#numbers.formatDecimal(totalFleetValue, 0, 'POINT', 0, 'COMMA')} + ' kr.'"
@@ -39,7 +39,7 @@
           </article>
 
           <article class="kpi-card">
-            <h2>Maanedlig omsaetning</h2>
+            <h2>Månedlig omsætning</h2>
             <p
               class="kpi-value"
               th:text="${#numbers.formatDecimal(monthlyRevenue, 0, 'POINT', 0, 'COMMA')} + ' kr.'"
@@ -50,24 +50,24 @@
           </article>
 
           <article class="kpi-card">
-            <h2>Aabne skader</h2>
+            <h2>Åbne skader</h2>
             <p class="kpi-value" th:text="${openDamageCount}">0</p>
             <small
-              th:text="${#numbers.formatDecimal(totalDamageCost, 0, 'POINT', 0, 'COMMA')} + ' kr. skannet'"
-              >0 kr. skannet</small
-            >
+              th:text="${#numbers.formatDecimal(totalDamageCost, 0, 'POINT', 0, 'COMMA')} + ' kr. i alt for skader'"
+              >0 kr. i alt for skader
+            </small>
           </article>
         </section>
 
         <section class="panel">
-          <h3>Fladestatus</h3>
+          <h3>Flådestatus</h3>
           <div class="status-grid">
             <article class="status-box">
-              <h4>AVAILABLE</h4>
+              <h4>TILGÆNGELIG</h4>
               <p th:text="${availableCarCount}">0</p>
             </article>
             <article class="status-box">
-              <h4>IN_REPAIR</h4>
+              <h4>UNDER_REPARATION</h4>
               <p th:text="${inRepairCount}">0</p>
             </article>
             <article class="status-box">
@@ -75,7 +75,7 @@
               <p th:text="${leasedCarCount}">0</p>
             </article>
             <article class="status-box">
-              <h4>READY_FOR_SALE</h4>
+              <h4>KLAR_TIL_SALG</h4>
               <p th:text="${readyForSaleCount}">0</p>
             </article>
           </div>

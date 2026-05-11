@@ -94,7 +94,7 @@
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.7rem;
-  max-width: 560px;
+  max-width: 640px;
 }
 
 .status-box {
@@ -106,9 +106,13 @@
 
 .status-box h4 {
   margin: 0;
-  font-size: 0.62rem;
+  font-size: 0.6rem;
   letter-spacing: 0.12em;
   color: #96a2ba;
+  line-height: 1.2;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .status-box p {
