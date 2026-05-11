@@ -21,7 +21,7 @@ main {
 
 .header h1 {
   margin: 0;
-  font-size: clamp(3.48rem, 4.56vw, 4.56rem);
+  font-size: clamp(3.1rem, 4.2vw, 4.2rem);
   line-height: 1;
   color: #f6f7fb;
   letter-spacing: -0.02em;
