@@ -13,7 +13,7 @@
 
 .page-header h1 {
   margin: 0;
-  font-size: clamp(2.4rem, 3.5vw, 3.6rem);
+  font-size: clamp(3.1rem, 4.2vw, 4.2rem);
   line-height: 1;
   font-family: Georgia, "Times New Roman", serif;
   color: #f0f3fb;
@@ -32,7 +32,7 @@
 }
 
 .kpi-grid {
-  max-width: 1160px;
+  max-width: 1200px;
   margin: 0 auto 1.3rem;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

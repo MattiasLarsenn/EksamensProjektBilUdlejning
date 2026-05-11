@@ -44,16 +44,6 @@
                     class="action-btn edit-btn"
                     >Rediger</a
                   >
-                  <a
-                    th:href="@{/customer-delete(customerId=${customer.customerId})}"
-                    class="action-btn delete-btn"
-                    onclick="
-                      return confirm(
-                        'Er du sikker på at du vil slette denne kunde?',
-                      );
-                    "
-                    >Slet</a
-                  >
                 </td>
               </tr>
             </tbody>

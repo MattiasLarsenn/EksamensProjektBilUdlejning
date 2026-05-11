@@ -11,26 +11,35 @@
     <main class="login-page">
       <section class="login-hero">
         <p class="eyebrow">Bilabonnement.dk</p>
-        <h1>Intern login til skaderegistrering</h1>
-        <p class="intro">
-          Brug login-siden som startside. Indtil videre sendes du direkte videre
-          til skaderegistrering, når du trykker på login.
-        </p>
+        <h1>Intern login til Bilabonnement</h1>
+        <p class="intro"></p>
       </section>
 
       <section class="login-card">
         <h2>Log ind</h2>
         <p>Ingen validering endnu. Felterne er kun visuelle lige nu.</p>
 
-        <form th:action="@{/damage-registration}" method="get" class="login-form">
+        <form
+          th:action="@{/damage-registration}"
+          method="get"
+          class="login-form"
+        >
           <label>
             Email
-            <input type="email" name="email" placeholder="navn@bilabonnement.dk" />
+            <input
+              type="email"
+              name="email"
+              placeholder="navn@bilabonnement.dk"
+            />
           </label>
 
           <label>
             Adgangskode
-            <input type="password" name="password" placeholder="Indtast adgangskode" />
+            <input
+              type="password"
+              name="password"
+              placeholder="Indtast adgangskode"
+            />
           </label>
 
           <button type="submit">Login</button>
