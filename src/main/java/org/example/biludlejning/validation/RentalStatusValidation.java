@@ -7,6 +7,7 @@ public class RentalStatusValidation
         return status != null &&
                 (status.equalsIgnoreCase("aktiv")
                 || status.equalsIgnoreCase("afsluttet")
-                || status.equalsIgnoreCase("Anulleret"));
+                || status.equalsIgnoreCase("anulleret")
+                || status.equalsIgnoreCase("kommende"));
     }
 }

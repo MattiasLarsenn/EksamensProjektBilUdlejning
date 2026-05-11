@@ -5,12 +5,12 @@ import java.util.List;
 import org.example.biludlejning.exceptions.InvalidPriceException;
 import org.example.biludlejning.exceptions.InvalidRentalDateException;
 import org.example.biludlejning.exceptions.InvalidRentalStatusException;
+import org.example.biludlejning.exceptions.RentalAgreementNotFoundException;
 import org.example.biludlejning.models.RentalAgreement;
 import org.example.biludlejning.repositories.RentalAgreementRepository;
 import org.example.biludlejning.validation.PriceValidation;
 import org.example.biludlejning.validation.RentalStatusValidation;
 import org.springframework.stereotype.Service;
-import tools.jackson.databind.ext.javatime.deser.LocalDateDeserializer;
 
 @Service
 public class RentalAgreementService
@@ -28,7 +28,15 @@ public class RentalAgreementService
         {
             throw new IllegalArgumentException("Rental id must be greater than 0");
         }
-        return rentalAgreementRepository.getRentalAgreementByRentalId(rentalId);
+
+        RentalAgreement rentalAgreement = rentalAgreementRepository.getRentalAgreementByRentalId(rentalId);
+
+        if (rentalAgreement == null)
+        {
+            throw new RentalAgreementNotFoundException("No rental agreement found with rental id: " + rentalId);
+        }
+
+        return rentalAgreement;
     }
 
     public void createRentalAgreement(RentalAgreement rentalAgreement)
