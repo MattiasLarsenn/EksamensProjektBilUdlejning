@@ -39,7 +39,8 @@ public class RentalAgreementController
                                         @RequestParam(required = false) String startDate,
                                         @RequestParam(required = false) String endDate,
                                         @RequestParam(required = false) BigDecimal price,
-                                        @RequestParam(required = false) String status)
+                                        @RequestParam(required = false) String status,
+                                        Model model)
     {
 
         LocalDate start = LocalDate.parse(startDate);

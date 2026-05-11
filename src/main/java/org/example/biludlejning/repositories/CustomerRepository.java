@@ -101,5 +101,25 @@ public class CustomerRepository implements ICustomerRepository
         return customers;
     }
 
+    public boolean customerExists(int customerId)
+    {
+        String sql = "SELECT COUNT(*) FROM customer WHERE customer_id = ?";
 
+        try (Connection database = conn.getConnection();
+             PreparedStatement ps = database.prepareStatement(sql))
+        {
+            ps.setInt(1, customerId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next())
+            {
+                return rs.getInt(1) > 0;
+            }
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Error while checking if customer exists: " + e.getMessage());
+        }
+        return false;
+    }
 }
