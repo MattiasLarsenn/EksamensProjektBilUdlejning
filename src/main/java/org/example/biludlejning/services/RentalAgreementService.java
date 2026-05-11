@@ -10,6 +10,8 @@ import org.example.biludlejning.models.RentalAgreement;
 import org.example.biludlejning.repositories.BusinessRepository;
 import org.example.biludlejning.repositories.CustomerRepository;
 import org.example.biludlejning.repositories.RentalAgreementRepository;
+import org.example.biludlejning.repositories.repositoryInterfaces.IBusinessRepository;
+import org.example.biludlejning.repositories.repositoryInterfaces.ICustomerRepository;
 import org.example.biludlejning.repositories.repositoryInterfaces.IRentalAgreementRepository;
 import org.example.biludlejning.validation.PriceValidation;
 import org.example.biludlejning.validation.RentalStatusValidation;
@@ -18,13 +20,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class RentalAgreementService
 {
-    private final RentalAgreementRepository rentalAgreementRepository;
-    private final BusinessRepository businessRepository;
-    private final CustomerRepository customerRepository;
+    private final IRentalAgreementRepository rentalAgreementRepository;
+    private final IBusinessRepository businessRepository;
+    private final ICustomerRepository customerRepository;
 
-    public RentalAgreementService(RentalAgreementRepository rentalAgreementRepository,
-                                  BusinessRepository businessRepository,
-                                  CustomerRepository customerRepository)
+    public RentalAgreementService(IRentalAgreementRepository rentalAgreementRepository,
+                                  IBusinessRepository businessRepository,
+                                  ICustomerRepository customerRepository)
     {
         this.rentalAgreementRepository = rentalAgreementRepository;
         this.businessRepository = businessRepository;
