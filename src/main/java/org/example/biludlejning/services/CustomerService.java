@@ -4,7 +4,6 @@ import org.example.biludlejning.exceptions.InvalidEmailException;
 import org.example.biludlejning.exceptions.InvalidNameException;
 import org.example.biludlejning.exceptions.InvalidPhoneNumberException;
 import org.example.biludlejning.models.Customer;
-import org.example.biludlejning.repositories.CustomerRepository;
 import org.example.biludlejning.repositories.repositoryInterfaces.ICustomerRepository;
 import org.example.biludlejning.validation.EmailValidation;
 import org.example.biludlejning.validation.NameValidation;
@@ -27,22 +26,22 @@ public class CustomerService
     {
         if (customer == null)
         {
-            throw new IllegalArgumentException("Customer cannot be null");
+            throw new IllegalArgumentException("Fejl ved oprettelse af kunde");
         }
 
         if (!NameValidation.isNameValid(customer.getName()))
         {
-            throw new InvalidNameException("Invalid Name");
+            throw new InvalidNameException("Ugyldigt navn");
         }
 
         if (!EmailValidation.isEmailValid(customer.getEmail()))
         {
-            throw new InvalidEmailException("Invalid Email");
+            throw new InvalidEmailException("Ugyldig email");
         }
 
         if (!PhoneNumberValidation.isPhoneNumberValid(customer.getPhone()))
         {
-            throw new InvalidPhoneNumberException("Invalid Phone Number");
+            throw new InvalidPhoneNumberException("Ugyldigt telefonnummer");
         }
         customerRepository.createCustomer(customer);
     }
@@ -51,34 +50,24 @@ public class CustomerService
     {
         if (customer == null)
         {
-            throw new IllegalArgumentException("Customer cannot be null");
+            throw new IllegalArgumentException("Fejl ved opdatering af kundeoplysninger");
         }
 
         if (!NameValidation.isNameValid(customer.getName()))
         {
-            throw new InvalidNameException("Invalid Name");
+            throw new InvalidNameException("Ugyldigt navn");
         }
 
         if (!EmailValidation.isEmailValid(customer.getEmail()))
         {
-            throw new InvalidEmailException("Invalid Email");
+            throw new InvalidEmailException("Ugyldig email");
         }
 
         if (!PhoneNumberValidation.isPhoneNumberValid(customer.getPhone()))
         {
-            throw new InvalidPhoneNumberException("Invalid Phone Number");
+            throw new InvalidPhoneNumberException("Ugyldigt telefonnummer");
         }
         customerRepository.updateCustomer(customer);
-    }
-
-    public void deleteCustomer(int customerId)
-    {
-        if (customerId <= 0)
-        {
-            throw new IllegalArgumentException("Customer id must be greater than 0");
-        }
-
-        customerRepository.deleteCustomer(customerId);
     }
 
     public List<Customer> getAllCustomers()

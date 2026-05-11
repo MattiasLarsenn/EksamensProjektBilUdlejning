@@ -1,11 +1,10 @@
 package org.example.biludlejning.services;
 
+import java.time.LocalDate;
 import java.util.List;
 
-import org.example.biludlejning.exceptions.InvalidPriceException;
-import org.example.biludlejning.exceptions.InvalidRentalDateException;
-import org.example.biludlejning.exceptions.InvalidRentalStatusException;
-import org.example.biludlejning.exceptions.RentalAgreementNotFoundException;
+import org.example.biludlejning.exceptions.*;
+import org.example.biludlejning.models.Car;
 import org.example.biludlejning.models.RentalAgreement;
 import org.example.biludlejning.repositories.BusinessRepository;
 import org.example.biludlejning.repositories.CustomerRepository;
@@ -14,6 +13,7 @@ import org.example.biludlejning.repositories.repositoryInterfaces.IBusinessRepos
 import org.example.biludlejning.repositories.repositoryInterfaces.ICustomerRepository;
 import org.example.biludlejning.repositories.repositoryInterfaces.IRentalAgreementRepository;
 import org.example.biludlejning.validation.PriceValidation;
+import org.example.biludlejning.validation.RentalDateValidation;
 import org.example.biludlejning.validation.RentalStatusValidation;
 import org.springframework.stereotype.Service;
 
@@ -35,16 +35,11 @@ public class RentalAgreementService
 
     public RentalAgreement getRentalAgreementByRentalId(int rentalId)
     {
-        if (rentalId <= 0)
-        {
-            throw new IllegalArgumentException("Rental id must be greater than 0");
-        }
-
         RentalAgreement rentalAgreement = rentalAgreementRepository.getRentalAgreementByRentalId(rentalId);
 
         if (rentalAgreement == null)
         {
-            throw new RentalAgreementNotFoundException("No rental agreement found with rental id: " + rentalId);
+            throw new RentalAgreementNotFoundException("Kunne ikke finde lejeaftale med id: " + rentalId);
         }
 
         return rentalAgreement;
@@ -54,52 +49,37 @@ public class RentalAgreementService
     {
         if (rentalAgreement == null)
         {
-            throw new IllegalArgumentException("Rental agreement cannot be null");
+            throw new IllegalArgumentException("Fejl ved oprettelse af lejeaftale");
         }
 
-        if (rentalAgreement.getCustomerId() <= 0)
+        if (!businessRepository.carExists(rentalAgreement.getCarId()))
         {
-            throw new IllegalArgumentException("Customer id must be greater than 0");
+            throw new CarNotFoundException("Bil med id: " + rentalAgreement.getCarId() + " eksisterer ikke");
         }
 
-        if (rentalAgreement.getCarId() <= 0)
+        if (businessRepository.isCarRented(rentalAgreement.getCarId()))
         {
-            throw new IllegalArgumentException("Car id must be greater than 0");
+            throw new IllegalArgumentException("Bil med id: " + rentalAgreement.getCarId() + " er allerede udlejet");
         }
 
-        if (rentalAgreement.getStartDate() == null
-            || rentalAgreement.getEndDate() == null
-            || !rentalAgreement.getEndDate().isAfter(rentalAgreement.getStartDate()))
+        if (!customerRepository.customerExists(rentalAgreement.getCustomerId()))
         {
-            throw new InvalidRentalDateException("Invalid dates for rental agreement");
-        }
-
-        if (!RentalStatusValidation.isStatusValid(rentalAgreement.getStatus()))
-        {
-            throw new InvalidRentalStatusException("Invalid status for rental agreement");
+            throw new CustomerNotFoundException("Kunde med id: " + rentalAgreement.getCustomerId() + " eksisterer ikke");
         }
 
         if (!PriceValidation.isPriceValid(rentalAgreement.getPrice()))
         {
-            throw new InvalidPriceException("Invalid price for rental agreement");
+            throw new InvalidPriceException("Ugyldig pris for lejeaftale");
         }
 
-        // Check if car exists
-        if (!businessRepository.carExists(rentalAgreement.getCarId()))
+        if (!RentalDateValidation.validateDate(rentalAgreement.getStartDate(), rentalAgreement.getEndDate()))
         {
-            throw new IllegalArgumentException("Car with ID " + rentalAgreement.getCarId() + " does not exist");
+            throw new InvalidRentalDateException("Ugyldig dato for lejeaftale");
         }
 
-        // Check if customer exists
-        if (!customerRepository.customerExists(rentalAgreement.getCustomerId()))
+        if (!RentalStatusValidation.isStatusValid(rentalAgreement.getStatus()))
         {
-            throw new IllegalArgumentException("Customer with ID " + rentalAgreement.getCustomerId() + " does not exist");
-        }
-
-        // Check if car is already rented
-        if (businessRepository.isCarRented(rentalAgreement.getCarId()))
-        {
-            throw new IllegalArgumentException("Car with ID " + rentalAgreement.getCarId() + " is already rented");
+            throw new InvalidRentalStatusException("Ugyldig status for lejeaftale");
         }
 
         rentalAgreementRepository.createRentalAgreement(rentalAgreement);
@@ -112,6 +92,11 @@ public class RentalAgreementService
 
     public boolean isRentalAgreementActive(int rentalId)
     {
+        if (rentalAgreementRepository.getRentalAgreementByRentalId(rentalId) == null)
+        {
+            throw new RentalAgreementNotFoundException("Kunne ikke finde lejeaftale med id: " + rentalId);
+        }
+
         return rentalAgreementRepository.isRentalAgreementActive(rentalId);
     }
 

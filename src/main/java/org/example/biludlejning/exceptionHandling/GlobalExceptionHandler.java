@@ -121,6 +121,27 @@ public class GlobalExceptionHandler
         return mav;
     }
 
+    @ExceptionHandler(CarNotFoundException.class)
+    public ModelAndView handleCarNotFound(CarNotFoundException e)
+    {
+        ModelAndView mav = new ModelAndView("errors/error");
+
+        mav.addObject("errorMessage", e.getMessage());
+
+        return mav;
+    }
+
+    @ExceptionHandler(CustomerNotFoundException.class)
+    public ModelAndView handleCustomerNotFound(CustomerNotFoundException e)
+    {
+        ModelAndView mav = new ModelAndView("errors/error");
+
+        mav.addObject("errorMessage", e.getMessage());
+
+        return mav;
+    }
+
+
 
 
 }
