@@ -1,6 +1,7 @@
 package org.example.biludlejning.exceptionHandling;
 
 import org.example.biludlejning.exceptions.*;
+import org.example.biludlejning.models.RentalAgreement;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
@@ -99,5 +100,27 @@ public class GlobalExceptionHandler
 
         return mav;
     }
+
+    @ExceptionHandler(DamageNotFoundException.class)
+    public ModelAndView handleDamageNotFound(DamageNotFoundException e)
+    {
+        ModelAndView mav = new ModelAndView("errors/error");
+
+        mav.addObject("errorMessage", e.getMessage());
+
+        return mav;
+    }
+
+    @ExceptionHandler(RentalAgreementNotFoundException.class)
+    public ModelAndView handleRentalAgreementNotFound(RentalAgreementNotFoundException e)
+    {
+        ModelAndView mav = new ModelAndView("errors/error");
+
+        mav.addObject("errorMessage", e.getMessage());
+
+        return mav;
+    }
+
+
 
 }
