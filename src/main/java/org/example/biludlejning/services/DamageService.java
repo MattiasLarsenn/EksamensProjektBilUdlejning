@@ -8,6 +8,7 @@ import org.example.biludlejning.exceptions.InvalidDescriptionException;
 import org.example.biludlejning.exceptions.InvalidPriceException;
 import org.example.biludlejning.models.Damage;
 import org.example.biludlejning.repositories.DamageRepository;
+import org.example.biludlejning.repositories.repositoryInterfaces.IDamageRepository;
 import org.example.biludlejning.validation.DescriptionValidation;
 import org.example.biludlejning.validation.PriceValidation;
 import org.springframework.stereotype.Service;
@@ -16,9 +17,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class DamageService
 {
-    private final DamageRepository damageRepository;
+    private final IDamageRepository damageRepository;
 
-    public DamageService(DamageRepository damageRepository)
+    public DamageService(IDamageRepository damageRepository)
     {
         this.damageRepository = damageRepository;
     }
