@@ -1,14 +1,14 @@
 package org.example.biludlejning.repositories;
 
-import org.example.biludlejning.repositories.repositoryInterfaces.IBusinessRepository;
-import org.example.biludlejning.utility.ConnectionManager;
-import org.springframework.stereotype.Repository;
-
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import org.example.biludlejning.repositories.repositoryInterfaces.IBusinessRepository;
+import org.example.biludlejning.utility.ConnectionManager;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class BusinessRepository implements IBusinessRepository
