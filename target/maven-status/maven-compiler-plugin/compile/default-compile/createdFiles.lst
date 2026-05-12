@@ -1,4 +1,5 @@
 org/example/biludlejning/validation/PriceValidation.class
+org/example/biludlejning/exceptions/RentalAgreementNotFoundException.class
 org/example/biludlejning/repositories/BusinessRepository.class
 org/example/biludlejning/exceptions/InvalidRentalStatusException.class
 org/example/biludlejning/exceptions/InvalidPhoneNumberException.class
@@ -24,6 +25,7 @@ org/example/biludlejning/repositories/CustomerRepository.class
 org/example/biludlejning/repositories/repositoryInterfaces/IRentalAgreementRepository.class
 org/example/biludlejning/validation/PhoneNumberValidation.class
 org/example/biludlejning/models/Customer.class
+org/example/biludlejning/exceptions/DamageNotFoundException.class
 org/example/biludlejning/validation/EmailValidation.class
 org/example/biludlejning/controllers/BusinessController.class
 org/example/biludlejning/exceptionHandling/GlobalExceptionHandler.class

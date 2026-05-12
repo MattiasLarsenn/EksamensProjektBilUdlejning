@@ -7,6 +7,7 @@
 /Users/filipklemensnorrekaas/Documents/Myfirstjavaprogram/EksamensProjektBilUdlejning/src/main/java/org/example/biludlejning/controllers/SidebarModelHelper.java
 /Users/filipklemensnorrekaas/Documents/Myfirstjavaprogram/EksamensProjektBilUdlejning/src/main/java/org/example/biludlejning/controllers/TestController.java
 /Users/filipklemensnorrekaas/Documents/Myfirstjavaprogram/EksamensProjektBilUdlejning/src/main/java/org/example/biludlejning/exceptionHandling/GlobalExceptionHandler.java
+/Users/filipklemensnorrekaas/Documents/Myfirstjavaprogram/EksamensProjektBilUdlejning/src/main/java/org/example/biludlejning/exceptions/DamageNotFoundException.java
 /Users/filipklemensnorrekaas/Documents/Myfirstjavaprogram/EksamensProjektBilUdlejning/src/main/java/org/example/biludlejning/exceptions/InvalidDescriptionException.java
 /Users/filipklemensnorrekaas/Documents/Myfirstjavaprogram/EksamensProjektBilUdlejning/src/main/java/org/example/biludlejning/exceptions/InvalidEmailException.java
 /Users/filipklemensnorrekaas/Documents/Myfirstjavaprogram/EksamensProjektBilUdlejning/src/main/java/org/example/biludlejning/exceptions/InvalidNameException.java
@@ -14,6 +15,7 @@
 /Users/filipklemensnorrekaas/Documents/Myfirstjavaprogram/EksamensProjektBilUdlejning/src/main/java/org/example/biludlejning/exceptions/InvalidPriceException.java
 /Users/filipklemensnorrekaas/Documents/Myfirstjavaprogram/EksamensProjektBilUdlejning/src/main/java/org/example/biludlejning/exceptions/InvalidRentalDateException.java
 /Users/filipklemensnorrekaas/Documents/Myfirstjavaprogram/EksamensProjektBilUdlejning/src/main/java/org/example/biludlejning/exceptions/InvalidRentalStatusException.java
+/Users/filipklemensnorrekaas/Documents/Myfirstjavaprogram/EksamensProjektBilUdlejning/src/main/java/org/example/biludlejning/exceptions/RentalAgreementNotFoundException.java
 /Users/filipklemensnorrekaas/Documents/Myfirstjavaprogram/EksamensProjektBilUdlejning/src/main/java/org/example/biludlejning/models/Car.java
 /Users/filipklemensnorrekaas/Documents/Myfirstjavaprogram/EksamensProjektBilUdlejning/src/main/java/org/example/biludlejning/models/Customer.java
 /Users/filipklemensnorrekaas/Documents/Myfirstjavaprogram/EksamensProjektBilUdlejning/src/main/java/org/example/biludlejning/models/Damage.java
