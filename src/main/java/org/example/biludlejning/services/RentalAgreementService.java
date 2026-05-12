@@ -3,12 +3,13 @@ package org.example.biludlejning.services;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.example.biludlejning.exceptions.*;
-import org.example.biludlejning.models.Car;
+import org.example.biludlejning.exceptions.CarNotFoundException;
+import org.example.biludlejning.exceptions.CustomerNotFoundException;
+import org.example.biludlejning.exceptions.InvalidPriceException;
+import org.example.biludlejning.exceptions.InvalidRentalDateException;
+import org.example.biludlejning.exceptions.InvalidRentalStatusException;
+import org.example.biludlejning.exceptions.RentalAgreementNotFoundException;
 import org.example.biludlejning.models.RentalAgreement;
-import org.example.biludlejning.repositories.BusinessRepository;
-import org.example.biludlejning.repositories.CustomerRepository;
-import org.example.biludlejning.repositories.RentalAgreementRepository;
 import org.example.biludlejning.repositories.repositoryInterfaces.IBusinessRepository;
 import org.example.biludlejning.repositories.repositoryInterfaces.ICustomerRepository;
 import org.example.biludlejning.repositories.repositoryInterfaces.IRentalAgreementRepository;
@@ -77,12 +78,16 @@ public class RentalAgreementService
             throw new InvalidRentalDateException("Ugyldig dato for lejeaftale");
         }
 
-        if (!RentalStatusValidation.isStatusValid(rentalAgreement.getStatus()))
+        String calculatedStatus = calculateRentalStatus(rentalAgreement.getStartDate(), rentalAgreement.getEndDate());
+        if (!RentalStatusValidation.isStatusValid(calculatedStatus))
         {
             throw new InvalidRentalStatusException("Ugyldig status for lejeaftale");
         }
 
+        rentalAgreement.setStatus(calculatedStatus);
+
         rentalAgreementRepository.createRentalAgreement(rentalAgreement);
+        businessRepository.updateCarStatus(rentalAgreement.getCarId(), "udlejet");
     }
 
     public List<RentalAgreement> getAllRentalAgreements()
@@ -98,6 +103,18 @@ public class RentalAgreementService
         }
 
         return rentalAgreementRepository.isRentalAgreementActive(rentalId);
+    }
+
+    private String calculateRentalStatus(LocalDate startDate, LocalDate endDate)
+    {
+        LocalDate today = LocalDate.now();
+
+        if (startDate.isAfter(today) || endDate.isBefore(today))
+        {
+            return "ikke aktiv";
+        }
+
+        return "aktiv";
     }
 
 }

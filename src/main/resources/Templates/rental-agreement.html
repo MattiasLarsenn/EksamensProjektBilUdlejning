@@ -26,7 +26,17 @@
           </button>
         </div>
 
-        <div th:if="${error}" class="error-message" style="color: red; margin-bottom: 20px; padding: 10px; border: 1px solid red; background-color: #ffe6e6;">
+        <div
+          th:if="${error}"
+          class="error-message"
+          style="
+            color: red;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid red;
+            background-color: #ffe6e6;
+          "
+        >
           <strong>Fejl:</strong> <span th:text="${error}"></span>
         </div>
 
@@ -70,12 +80,7 @@
             </label>
             <label>
               Status
-              <input
-                type="text"
-                name="status"
-                placeholder="F.eks. Active"
-                required
-              />
+              <input type="text" value="Automatisk" disabled />
             </label>
           </div>
 
