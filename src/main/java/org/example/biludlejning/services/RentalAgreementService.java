@@ -1,6 +1,5 @@
 package org.example.biludlejning.services;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.example.biludlejning.exceptions.CarNotFoundException;
@@ -77,17 +76,13 @@ public class RentalAgreementService
         {
             throw new InvalidRentalDateException("Ugyldig dato for lejeaftale");
         }
-
-        String calculatedStatus = calculateRentalStatus(rentalAgreement.getStartDate(), rentalAgreement.getEndDate());
-        if (!RentalStatusValidation.isStatusValid(calculatedStatus))
+        if (!RentalStatusValidation.isStatusValid(rentalAgreement.getStatus()))
         {
             throw new InvalidRentalStatusException("Ugyldig status for lejeaftale");
         }
 
-        rentalAgreement.setStatus(calculatedStatus);
 
         rentalAgreementRepository.createRentalAgreement(rentalAgreement);
-        businessRepository.updateCarStatus(rentalAgreement.getCarId(), "udlejet");
     }
 
     public List<RentalAgreement> getAllRentalAgreements()
@@ -105,16 +100,5 @@ public class RentalAgreementService
         return rentalAgreementRepository.isRentalAgreementActive(rentalId);
     }
 
-    private String calculateRentalStatus(LocalDate startDate, LocalDate endDate)
-    {
-        LocalDate today = LocalDate.now();
-
-        if (startDate.isAfter(today) || endDate.isBefore(today))
-        {
-            return "ikke aktiv";
-        }
-
-        return "aktiv";
-    }
 
 }

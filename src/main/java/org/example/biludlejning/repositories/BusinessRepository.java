@@ -20,7 +20,7 @@ public class BusinessRepository implements IBusinessRepository
         this.conn = connection;
     }
 
-    @Override
+    
     public int getActiveRentalCount()
     {
         String sql = "SELECT COUNT(*) FROM rentalAgreement WHERE status = ?";
@@ -44,7 +44,7 @@ public class BusinessRepository implements IBusinessRepository
         return count;
     }
 
-    @Override
+    
     public int getAvailableCarCount()
     {
         String sql = "SELECT COUNT(*) FROM car WHERE status = ?";
@@ -68,7 +68,7 @@ public class BusinessRepository implements IBusinessRepository
         return count;
     }
 
-    @Override
+    
     public int getTotalCarCount()
     {
         String sql = "SELECT COUNT(*) FROM car";
@@ -91,7 +91,7 @@ public class BusinessRepository implements IBusinessRepository
         return count;
     }
 
-    @Override
+    
     public BigDecimal getTotalActiveRentalPrice()
     {
         String sql = "SELECT SUM(price) FROM rentalAgreement WHERE status = ?";
@@ -121,7 +121,7 @@ public class BusinessRepository implements IBusinessRepository
         return BigDecimal.ZERO;
     }
 
-    @Override
+    
     public BigDecimal getTotalDamageCost()
     {
         String sql = "SELECT SUM(price) FROM damage";
@@ -150,7 +150,7 @@ public class BusinessRepository implements IBusinessRepository
         return BigDecimal.ZERO;
     }
 
-    @Override
+    
     public boolean carExists(int carId)
     {
         String sql = "SELECT COUNT(*) FROM car WHERE car_id = ?";
@@ -173,7 +173,7 @@ public class BusinessRepository implements IBusinessRepository
         return false;
     }
 
-    @Override
+    
     public boolean isCarRented(int carId)
     {
         String sql = "SELECT COUNT(*) FROM rentalAgreement WHERE car_id = ? AND status = ?";
@@ -197,21 +197,6 @@ public class BusinessRepository implements IBusinessRepository
         return false;
     }
 
-    @Override
-    public void updateCarStatus(int carId, String status)
-    {
-        String sql = "UPDATE car SET status = ? WHERE car_id = ?";
-
-        try (Connection database = conn.getConnection();
-             PreparedStatement ps = database.prepareStatement(sql))
-        {
-            ps.setString(1, status);
-            ps.setInt(2, carId);
-            ps.executeUpdate();
-        }
-        catch (SQLException e)
-        {
-            System.out.println("Error while updating car status: " + e.getMessage());
-        }
-    }
+    
+    
 }
