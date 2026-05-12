@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+  <body>
+    <div
+      th:fragment="errorModal"
+      id="globalErrorModal"
+      class="global-error-modal"
+      th:if="${errorMessage != null and !#strings.isEmpty(errorMessage)}"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="globalErrorModalTitle"
+    >
+      <div class="global-error-content">
+        <div class="global-error-header">
+          <h2 id="globalErrorModalTitle">Fejl</h2>
+          <button
+            type="button"
+            class="global-error-close"
+            aria-label="Luk fejlbesked"
+            onclick="closeGlobalErrorModal()"
+          >
+            &times;
+          </button>
+        </div>
+        <p class="global-error-message" th:text="${errorMessage}">
+          Der opstod en fejl.
+        </p>
+        <div class="global-error-actions">
+          <button
+            type="button"
+            class="global-error-ok"
+            onclick="closeGlobalErrorModal()"
+          >
+            OK
+          </button>
+        </div>
+      </div>
+
+      <script>
+        function closeGlobalErrorModal() {
+          var modal = document.getElementById("globalErrorModal");
+          if (modal) {
+            modal.style.display = "none";
+          }
+
+          var url = new URL(window.location.href);
+          if (url.searchParams.has("error")) {
+            url.searchParams.delete("error");
+            window.history.replaceState({}, "", url.toString());
+          }
+        }
+
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "Escape") {
+            closeGlobalErrorModal();
+          }
+        });
+
+        document.addEventListener("click", function (event) {
+          var modal = document.getElementById("globalErrorModal");
+          if (modal && event.target === modal) {
+            closeGlobalErrorModal();
+          }
+        });
+      </script>
+    </div>
+  </body>
+</html>
