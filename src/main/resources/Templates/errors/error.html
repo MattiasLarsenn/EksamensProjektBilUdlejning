@@ -1,10 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Error</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fejl</title>
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/error.css" />
 </head>
 <body>
-<a th:text="${errorMessage}"></a>
+    <div class="error-modal" id="errorModal">
+        <div class="error-content">
+            <div class="error-header">
+                <h2 class="error-title">Fejl</h2>
+                <button class="close-btn" onclick="closeErrorModal()">&times;</button>
+            </div>
+            <p class="error-message" th:text="${errorMessage ?: 'Der opstod en ukendt fejl'}"></p>
+            <div class="error-actions">
+                <button class="btn btn-primary" onclick="closeErrorModal()">OK</button>
+                <button class="btn btn-secondary" onclick="goBack()">Tilbage</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function closeErrorModal() {
+            document.getElementById('errorModal').style.display = 'none';
+            // Redirect to home or previous page
+            window.location.href = '/';
+        }
+
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = '/';
+            }
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('errorModal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeErrorModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeErrorModal();
+            }
+        });
+    </script>
 </body>
 </html>

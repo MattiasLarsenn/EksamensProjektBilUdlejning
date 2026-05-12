@@ -121,6 +121,15 @@ public class GlobalExceptionHandler
         return mav;
     }
 
+    @ExceptionHandler(Exception.class)
+    public ModelAndView handleGeneralException(Exception e)
+    {
+        ModelAndView mav = new ModelAndView("errors/error");
+
+        mav.addObject("errorMessage", "Der opstod en uventet fejl: " + e.getMessage());
+
+        return mav;
+    }
 
 
 }
