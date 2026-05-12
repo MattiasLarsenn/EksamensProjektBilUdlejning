@@ -47,7 +47,8 @@ public class BusinessController
 
         List<RentalAgreement> activeAgreements = rentalAgreementService.getAllRentalAgreements()
                 .stream()
-                .filter(agreement -> "active".equalsIgnoreCase(agreement.getStatus()))
+            .filter(agreement -> "aktiv".equalsIgnoreCase(agreement.getStatus())
+                || "active".equalsIgnoreCase(agreement.getStatus()))
                 .toList();
 
         model.addAttribute("activeRentalCount", activeRentalCount);
