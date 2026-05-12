@@ -1,10 +1,14 @@
 package org.example.biludlejning.serviceTest;
 
 
+import org.example.biludlejning.exceptions.DamageNotFoundException;
 import org.example.biludlejning.exceptions.InvalidDescriptionException;
 import org.example.biludlejning.exceptions.InvalidPriceException;
+import org.example.biludlejning.exceptions.RentalAgreementNotFoundException;
 import org.example.biludlejning.models.Damage;
+import org.example.biludlejning.models.RentalAgreement;
 import org.example.biludlejning.repositories.repositoryInterfaces.IDamageRepository;
+import org.example.biludlejning.repositories.repositoryInterfaces.IRentalAgreementRepository;
 import org.example.biludlejning.services.DamageService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,28 +23,41 @@ import static org.mockito.Mockito.*;
 
 public class DamageServiceTest
 {
-    private IDamageRepository mockRepository;
+    private IDamageRepository mockDamageRepository;
+    private IRentalAgreementRepository mockRentalAgreementRepository;
     private DamageService service;
 
     @BeforeEach
     void setUp()
     {
-        mockRepository = mock(IDamageRepository.class);
-        service = new DamageService(mockRepository);
+        mockRentalAgreementRepository = mock(IRentalAgreementRepository.class);
+        mockDamageRepository = mock(IDamageRepository.class);
+        service = new DamageService(mockDamageRepository, mockRentalAgreementRepository);
     }
 
     @Test
     void shouldCreateDamage()
     {
+        RentalAgreement rentalAgreement = new RentalAgreement(
+                1,
+                1,
+                1,
+                LocalDate.now(),
+                LocalDate.now().plusDays(7),
+                new BigDecimal("2000"), "Aktiv"
+        );
+
         Damage damage = new Damage(
                 1,
                 "Ødelagt spejl",
                 new BigDecimal("1500")
         );
 
+        when(mockRentalAgreementRepository.getRentalAgreementByRentalId(1)).thenReturn(rentalAgreement);
+
         service.createDamage(damage);
 
-        verify(mockRepository)
+        verify(mockDamageRepository)
                 .createDamage(damage);
     }
 
@@ -52,26 +69,75 @@ public class DamageServiceTest
     }
 
     @Test
-    void shouldThrowExceptionWhenRentalIdIsLessThanOne()
+    void shouldThrowExceptionWhenRentalIdDoesntExist()
     {
+        RentalAgreement rentalAgreement = new RentalAgreement(
+                1,
+                1,
+                1,
+                LocalDate.now(),
+                LocalDate.now().plusDays(7),
+                new BigDecimal("2000"), "Aktiv"
+        );
+
         Damage damage = new Damage(
-                0,
+                2,
                 "Ødelagt spejl",
                 new BigDecimal("1500")
         );
 
-        assertThrows(IllegalArgumentException.class, () ->
+        when(mockRentalAgreementRepository.getRentalAgreementByRentalId(1)).thenReturn(rentalAgreement);
+
+
+        assertThrows(RentalAgreementNotFoundException.class, () ->
+                service.createDamage(damage));
+    }
+
+    @Test
+    void shouldNotThrowExceptionWhenRentalIdExist()
+    {
+        RentalAgreement rentalAgreement = new RentalAgreement(
+                1,
+                1,
+                1,
+                LocalDate.now(),
+                LocalDate.now().plusDays(7),
+                new BigDecimal("2000"), "Aktiv"
+        );
+
+        Damage damage = new Damage(
+                1,
+                "Ødelagt spejl",
+                new BigDecimal("1500")
+        );
+
+        when(mockRentalAgreementRepository.getRentalAgreementByRentalId(1)).thenReturn(rentalAgreement);
+
+
+        assertDoesNotThrow(() ->
                 service.createDamage(damage));
     }
 
     @Test
     void shouldThrowExceptionWhenDescriptionIsInvalid()
     {
+        RentalAgreement rentalAgreement = new RentalAgreement(
+                1,
+                1,
+                1,
+                LocalDate.now(),
+                LocalDate.now().plusDays(7),
+                new BigDecimal("2000"), "Aktiv"
+        );
+
         Damage damage = new Damage(
                 1,
                 " ",
                 new BigDecimal("1500")
         );
+
+        when(mockRentalAgreementRepository.getRentalAgreementByRentalId(1)).thenReturn(rentalAgreement);
+
         assertThrows(InvalidDescriptionException.class, () ->
                 service.createDamage(damage));
     }
@@ -84,6 +150,18 @@ public class DamageServiceTest
                 "Ødelagt spejl",
                 new BigDecimal("-100")
         );
+
+        RentalAgreement rentalAgreement = new RentalAgreement(
+                1,
+                1,
+                1,
+                LocalDate.now(),
+                LocalDate.now().plusDays(7),
+                new BigDecimal("2000"), "Aktiv"
+        );
+
+        when(mockRentalAgreementRepository.getRentalAgreementByRentalId(1)).thenReturn(rentalAgreement);
+
 
         assertThrows(InvalidPriceException.class, () ->
                 service.createDamage(damage));
@@ -100,7 +178,7 @@ public class DamageServiceTest
                 LocalDate.now()
         );
 
-        when(mockRepository.getDamageById(1))
+        when(mockDamageRepository.getDamageById(1))
                 .thenReturn(damage);
 
         Damage result = service.getDamageById(1);
@@ -110,16 +188,26 @@ public class DamageServiceTest
     }
 
     @Test
-    void shouldThrowExceptionWhenDamageIdIsLessThanOne()
+    void shouldThrowExceptionWhenDamageIdDoesntExist()
     {
-        assertThrows(IllegalArgumentException.class, () ->
-                service.getDamageById(0));
+        Damage damage = new Damage(
+                1,
+                1,
+                "Total Smadret",
+                new BigDecimal("15000"),
+                LocalDate.now()
+        );
+
+        when(mockDamageRepository.getDamageById(1)).thenReturn(damage);
+
+        assertThrows(DamageNotFoundException.class, () ->
+                service.getDamageById(2));
     }
 
     @Test
-    void shouldReturnAlleDamages()
+    void shouldReturnAllDamages()
     {
-        when(mockRepository.getAllDamages())
+        when(mockDamageRepository.getAllDamages())
                 .thenReturn(new ArrayList<>());
 
         List<Damage> result = service.getAllDamages();
@@ -130,7 +218,19 @@ public class DamageServiceTest
     @Test
     void shouldReturnAllDamagesByRentalId()
     {
-        when(mockRepository.getAllDamagesByRentalId(1))
+        RentalAgreement rentalAgreement = new RentalAgreement(
+                1,
+                1,
+                1,
+                LocalDate.now(),
+                LocalDate.now().plusDays(7),
+                new BigDecimal("3000"),
+                "aktiv"
+        );
+
+        when(mockRentalAgreementRepository.getRentalAgreementByRentalId(1)).thenReturn(rentalAgreement);
+
+        when(mockDamageRepository.getAllDamagesByRentalId(1))
                 .thenReturn(new ArrayList<>());
 
         List<Damage> result = service.getAllDamagesByRentalId(1);
@@ -139,16 +239,21 @@ public class DamageServiceTest
     }
 
     @Test
-    void shouldThrowExceptionWhenRentalIdIsLessThanOneInGetAllDamagesByRentalId()
-    {
-        assertThrows(IllegalArgumentException.class, () ->
-                service.getAllDamagesByRentalId(0));
-    }
-
-    @Test
     void shouldReturnTotalDamagePriceByRentalId()
      {
-         when(mockRepository.getTotalDamagePriceByRentalId(1))
+         RentalAgreement rentalAgreement = new RentalAgreement(
+                 1,
+                 1,
+                 1,
+                 LocalDate.now(),
+                 LocalDate.now().plusDays(7),
+                 new BigDecimal("3000"),
+                 "aktiv"
+         );
+
+         when(mockRentalAgreementRepository.getRentalAgreementByRentalId(1)).thenReturn(rentalAgreement);
+
+         when(mockDamageRepository.getTotalDamagePriceByRentalId(1))
                  .thenReturn(new BigDecimal("3000"));
 
          BigDecimal result = service.getTotalDamagePriceByRentalId(1);
@@ -157,24 +262,36 @@ public class DamageServiceTest
      }
 
      @Test
-     void shouldThrowExceptionWhenRentalIdIsLessThanOneInGetTotalDamagePriceById()
+     void shouldThrowExceptionWhenRentalIdDoesntExistInGetTotalPriceByRentalId()
      {
-         assertThrows(IllegalArgumentException.class, () ->
-                 service.getTotalDamagePriceByRentalId(0));
+         assertThrows(RentalAgreementNotFoundException.class, () ->
+                 service.getTotalDamagePriceByRentalId(1));
      }
 
     @Test
     void shouldUpdateDamage()
     {
+        RentalAgreement rentalAgreement = new RentalAgreement(
+                1,
+                1,
+                1,
+                LocalDate.now(),
+                LocalDate.now().plusDays(7),
+                new BigDecimal("3000"),
+                "aktiv"
+        );
+
         Damage damage = new Damage(
                 1,
                 "Ødelagt spejl",
                 new BigDecimal("1500")
         );
 
+        when(mockRentalAgreementRepository.getRentalAgreementByRentalId(1)).thenReturn(rentalAgreement);
+
         service.updateDamage(damage);
 
-        verify(mockRepository, times(1))
+        verify(mockDamageRepository, times(1))
                 .updateDamage(damage);
     }
 
@@ -186,26 +303,52 @@ public class DamageServiceTest
     }
 
     @Test
-    void shouldThrowExceptionWhenRentalIdIsLessThanOneInUpdateDamage()
+    void shouldThrowExceptionWhenRentalIdDoesntExistInUpdateDamage()
     {
+        RentalAgreement rentalAgreement = new RentalAgreement(
+                1,
+                1,
+                1,
+                LocalDate.now(),
+                LocalDate.now().plusDays(7),
+                new BigDecimal("3000"),
+                "aktiv"
+        );
+
         Damage damage = new Damage(
-                0,
+                2,
                 "Ødelagt spejl",
                 new BigDecimal("1500")
         );
 
-        assertThrows(IllegalArgumentException.class, () ->
+        when(mockRentalAgreementRepository.getRentalAgreementByRentalId(1)).thenReturn(rentalAgreement);
+
+
+        assertThrows(RentalAgreementNotFoundException.class, () ->
                 service.updateDamage(damage));
     }
 
     @Test
     void shouldThrowExceptionWhenDescriptionIsInvalidInUpdateDamage()
     {
+        RentalAgreement rentalAgreement = new RentalAgreement(
+                1,
+                1,
+                1,
+                LocalDate.now(),
+                LocalDate.now().plusDays(7),
+                new BigDecimal("3000"),
+                "aktiv"
+        );
+
         Damage damage = new Damage(
                 1,
                 " ",
                 new BigDecimal("1500")
         );
+
+        when(mockRentalAgreementRepository.getRentalAgreementByRentalId(1)).thenReturn(rentalAgreement);
+
         assertThrows(InvalidDescriptionException.class, () ->
                 service.updateDamage(damage));
     }
@@ -213,11 +356,24 @@ public class DamageServiceTest
     @Test
     void shouldThrowExceptionWhenPriceIsInvalidInUpdateDamage()
     {
+        RentalAgreement rentalAgreement = new RentalAgreement(
+                1,
+                1,
+                1,
+                LocalDate.now(),
+                LocalDate.now().plusDays(7),
+                new BigDecimal("3000"),
+                "aktiv"
+        );
+
         Damage damage = new Damage(
                 1,
                 "Ødelagt spejl",
                 new BigDecimal("-100")
         );
+
+        when(mockRentalAgreementRepository.getRentalAgreementByRentalId(1)).thenReturn(rentalAgreement);
+
 
         assertThrows(InvalidPriceException.class, () ->
                 service.updateDamage(damage));
@@ -226,16 +382,32 @@ public class DamageServiceTest
     @Test
     void shouldDeleteDamage()
     {
+        Damage damage = new Damage(
+                1,
+                "Ødelagt spejl",
+                new BigDecimal("-100")
+        );
+
+        when(mockDamageRepository.getDamageById(1)).thenReturn(damage);
+
         service.deleteDamage(1);
 
-        verify(mockRepository)
+        verify(mockDamageRepository)
                 .deleteDamage(1);
     }
 
     @Test
-    void shouldThrowExceptionWhenDamageIdIsLessThanOneInDeleteDamage()
+    void shouldThrowExceptionWhenDamageIdDoesntExistInDeleteDamage()
     {
-        assertThrows(IllegalArgumentException.class, () ->
-                service.deleteDamage(0));
+        Damage damage = new Damage(
+                1,
+                "Ødelagt spejl",
+                new BigDecimal("1500")
+        );
+
+        when(mockDamageRepository.getDamageById(1)).thenReturn(damage);
+
+        assertThrows(DamageNotFoundException.class, () ->
+                service.deleteDamage(2));
     }
 }

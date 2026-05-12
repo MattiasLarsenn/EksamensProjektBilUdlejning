@@ -1,10 +1,13 @@
 package org.example.biludlejning.serviceTest;
 
 
-import org.example.biludlejning.exceptions.InvalidPriceException;
-import org.example.biludlejning.exceptions.InvalidRentalDateException;
-import org.example.biludlejning.exceptions.InvalidRentalStatusException;
+import org.example.biludlejning.exceptions.*;
+import org.example.biludlejning.models.Car;
+import org.example.biludlejning.models.Customer;
 import org.example.biludlejning.models.RentalAgreement;
+import org.example.biludlejning.repositories.repositoryInterfaces.IBusinessRepository;
+import org.example.biludlejning.repositories.repositoryInterfaces.ICustomerRepository;
+import org.example.biludlejning.repositories.repositoryInterfaces.IDamageRepository;
 import org.example.biludlejning.repositories.repositoryInterfaces.IRentalAgreementRepository;
 import org.example.biludlejning.services.RentalAgreementService;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,14 +23,20 @@ import static org.mockito.Mockito.*;
 
 public class RentalAgreementServiceTest
 {
-    private IRentalAgreementRepository mockRepository;
+    private IRentalAgreementRepository mockRentalAgreementRepository;
+    private ICustomerRepository mockCustomerRepository;
+    private IBusinessRepository mockBusinessRepository;
+
     private RentalAgreementService service;
 
     @BeforeEach
     public void setUp()
     {
-        mockRepository = mock(IRentalAgreementRepository.class);
-        service = new RentalAgreementService(mockRepository);
+        mockRentalAgreementRepository = mock(IRentalAgreementRepository.class);
+        mockCustomerRepository = mock(ICustomerRepository.class);
+        mockBusinessRepository = mock(IBusinessRepository.class);
+
+        service = new RentalAgreementService(mockRentalAgreementRepository, mockBusinessRepository, mockCustomerRepository);
     }
 
     @Test
@@ -43,7 +52,7 @@ public class RentalAgreementServiceTest
                 new BigDecimal("5000"),
                 "aktiv"
         );
-        when(mockRepository.getRentalAgreementByRentalId(1))
+        when(mockRentalAgreementRepository.getRentalAgreementByRentalId(1))
                 .thenReturn(rentalAgreement);
 
         RentalAgreement result = service.getRentalAgreementByRentalId(1);
@@ -53,10 +62,23 @@ public class RentalAgreementServiceTest
     }
 
     @Test
-    void shouldThrowExceptionWhenRentalIdIsLessThanOne()
+    void shouldThrowExceptionWhenRentalIdDoesntExist()
     {
-        assertThrows(IllegalArgumentException.class, () ->
-                service.getRentalAgreementByRentalId(0));
+        RentalAgreement rentalAgreement = new RentalAgreement(
+                1,
+                1,
+                1,
+                LocalDate.now(),
+                LocalDate.now().plusDays(30),
+                new BigDecimal("5000"),
+                "aktiv"
+        );
+
+        when(mockRentalAgreementRepository.getRentalAgreementByRentalId(1))
+                .thenReturn(rentalAgreement);
+
+        assertThrows(RentalAgreementNotFoundException.class, () ->
+                service.getRentalAgreementByRentalId(2));
     }
 
     @Test
@@ -70,10 +92,12 @@ public class RentalAgreementServiceTest
                 new BigDecimal("5000"),
                 "aktiv"
         );
+        when(mockBusinessRepository.carExists(1)).thenReturn(true);
+        when(mockCustomerRepository.customerExists(1)).thenReturn(true);
 
         service.createRentalAgreement(rentalAgreement);
 
-        verify(mockRepository)
+        verify(mockRentalAgreementRepository)
                 .createRentalAgreement(rentalAgreement);
     }
 
@@ -85,26 +109,29 @@ public class RentalAgreementServiceTest
     }
 
     @Test
-    void shouldThrowEceptionWhenCustomerIdIsLessThanOne()
+    void shouldThrowExceptionWhenCustomerIdDoesntExist()
     {
         RentalAgreement rentalAgreement = new RentalAgreement(
                 1,
-                0,
+                1,
                 LocalDate.now(),
                 LocalDate.now().plusDays(30),
                 new BigDecimal("5000"),
                 "aktiv"
         );
 
-        assertThrows(IllegalArgumentException.class, () ->
+        when(mockBusinessRepository.carExists(1)).thenReturn(true);
+        when(mockCustomerRepository.customerExists(1)).thenReturn(false);
+
+        assertThrows(CustomerNotFoundException.class, () ->
                 service.createRentalAgreement(rentalAgreement));
     }
 
     @Test
-    void shouldThrowExceptionWhenCarIdIsLessThanOne()
+    void shouldThrowExceptionWhenCarIdDoesntExist()
     {
         RentalAgreement rentalAgreement = new RentalAgreement(
-                0,
+                1,
                 1,
                 LocalDate.now(),
                 LocalDate.now().plusDays(30),
@@ -112,7 +139,9 @@ public class RentalAgreementServiceTest
                 "aktiv"
         );
 
-        assertThrows(IllegalArgumentException.class, () ->
+        when(mockBusinessRepository.carExists(1)).thenReturn(false);
+
+        assertThrows(CarNotFoundException.class, () ->
                 service.createRentalAgreement(rentalAgreement));
     }
 
@@ -127,6 +156,9 @@ public class RentalAgreementServiceTest
                 new BigDecimal("5000"),
                 "aktiv"
         );
+
+        when(mockCustomerRepository.customerExists(1)).thenReturn(true);
+        when(mockBusinessRepository.carExists(1)).thenReturn(true);
 
         assertThrows(InvalidRentalDateException.class, () ->
                 service.createRentalAgreement(rentalAgreement));
@@ -144,6 +176,9 @@ public class RentalAgreementServiceTest
                 "forkertStatus"
         );
 
+        when(mockCustomerRepository.customerExists(1)).thenReturn(true);
+        when(mockBusinessRepository.carExists(1)).thenReturn(true);
+
         assertThrows(InvalidRentalStatusException.class, () ->
                 service.createRentalAgreement(rentalAgreement));
     }
@@ -160,6 +195,9 @@ public class RentalAgreementServiceTest
                 "aktiv"
         );
 
+        when(mockCustomerRepository.customerExists(1)).thenReturn(true);
+        when(mockBusinessRepository.carExists(1)).thenReturn(true);
+
         assertThrows(InvalidPriceException.class, () ->
                 service.createRentalAgreement(rentalAgreement));
     }
@@ -167,7 +205,7 @@ public class RentalAgreementServiceTest
     @Test
     void shouldReturnAllRentalAgreements()
     {
-        when(mockRepository.getAllRentalAgreements())
+        when(mockRentalAgreementRepository.getAllRentalAgreements())
                 .thenReturn(new ArrayList<>());
 
         List<RentalAgreement> result = service.getAllRentalAgreements();
@@ -176,9 +214,20 @@ public class RentalAgreementServiceTest
     }
 
     @Test
-    void shouldReturnTrueWhenRenntalAgreementIsActive()
+    void shouldReturnTrueWhenRentalAgreementIsActive()
     {
-        when(mockRepository.isRentalAgreementActive(1))
+        RentalAgreement rentalAgreement = new RentalAgreement(
+                1,
+                1,
+                LocalDate.now(),
+                LocalDate.now().plusDays(30),
+                new BigDecimal("-5000"),
+                "aktiv"
+        );
+
+        when(mockRentalAgreementRepository.getRentalAgreementByRentalId(1)).thenReturn(rentalAgreement);
+
+        when(mockRentalAgreementRepository.isRentalAgreementActive(1))
                 .thenReturn(true);
 
         boolean result = service.isRentalAgreementActive(1);
@@ -189,11 +238,40 @@ public class RentalAgreementServiceTest
     @Test
     void shouldReturnFalseWhenRentalAgreementIsNotActve()
     {
-        when(mockRepository.isRentalAgreementActive(1))
+        RentalAgreement rentalAgreement = new RentalAgreement(
+                1,
+                1,
+                LocalDate.now(),
+                LocalDate.now().plusDays(30),
+                new BigDecimal("-5000"),
+                "aktiv"
+        );
+
+        when(mockRentalAgreementRepository.getRentalAgreementByRentalId(1)).thenReturn(rentalAgreement);
+
+        when(mockRentalAgreementRepository.isRentalAgreementActive(1))
                 .thenReturn(false);
 
         boolean result = service.isRentalAgreementActive(1);
 
         assertFalse(result);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenRentalIdDoesntExistInIsRentalAgreementActive()
+    {
+        RentalAgreement rentalAgreement = new RentalAgreement(
+                1,
+                1,
+                LocalDate.now(),
+                LocalDate.now().plusDays(30),
+                new BigDecimal("5000"),
+                "aktiv"
+        );
+
+        when(mockRentalAgreementRepository.getRentalAgreementByRentalId(1)).thenReturn(rentalAgreement);
+
+        assertThrows(RentalAgreementNotFoundException.class,() ->
+                service.isRentalAgreementActive(2));
     }
 }
