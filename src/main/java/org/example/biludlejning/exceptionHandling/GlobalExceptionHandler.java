@@ -1,7 +1,6 @@
 package org.example.biludlejning.exceptionHandling;
 
 import org.example.biludlejning.exceptions.*;
-import org.example.biludlejning.models.RentalAgreement;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
