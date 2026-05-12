@@ -6,9 +6,10 @@ import java.util.List;
 import org.example.biludlejning.exceptions.DamageNotFoundException;
 import org.example.biludlejning.exceptions.InvalidDescriptionException;
 import org.example.biludlejning.exceptions.InvalidPriceException;
+import org.example.biludlejning.exceptions.RentalAgreementNotFoundException;
 import org.example.biludlejning.models.Damage;
-import org.example.biludlejning.repositories.DamageRepository;
 import org.example.biludlejning.repositories.repositoryInterfaces.IDamageRepository;
+import org.example.biludlejning.repositories.repositoryInterfaces.IRentalAgreementRepository;
 import org.example.biludlejning.validation.DescriptionValidation;
 import org.example.biludlejning.validation.PriceValidation;
 import org.springframework.stereotype.Service;
@@ -18,32 +19,34 @@ import org.springframework.stereotype.Service;
 public class DamageService
 {
     private final IDamageRepository damageRepository;
+    private final IRentalAgreementRepository rentalAgreementRepository;
 
-    public DamageService(IDamageRepository damageRepository)
+    public DamageService(IDamageRepository damageRepository, IRentalAgreementRepository rentalAgreementRepository)
     {
         this.damageRepository = damageRepository;
+        this.rentalAgreementRepository = rentalAgreementRepository;
     }
 
     public void createDamage(Damage damage)
     {
         if (damage == null)
         {
-            throw new IllegalArgumentException("Damage cannot be null");
+            throw new IllegalArgumentException("Fejl ved oprettelse af skade");
         }
 
-        if (damage.getRentalId() <= 0)
+        if (rentalAgreementRepository.getRentalAgreementByRentalId(damage.getRentalId()) == null)
         {
-            throw new IllegalArgumentException("Rental id must be greater than 0");
+            throw new RentalAgreementNotFoundException("Lejeaftale kunne ikke findes");
         }
 
         if (!DescriptionValidation.isDescriptionValid(damage.getDescription()))
         {
-            throw new InvalidDescriptionException("Invalid damage description");
+            throw new InvalidDescriptionException("Ugyldig beskrivelse af skade");
         }
 
         if (!PriceValidation.isPriceValid(damage.getPrice()))
         {
-            throw new InvalidPriceException("Invalid price for damage");
+            throw new InvalidPriceException("Ugyldig pris på skade");
         }
 
         damageRepository.createDamage(damage);
@@ -51,16 +54,11 @@ public class DamageService
 
     public Damage getDamageById(int damageId)
     {
-        if (damageId <= 0)
-        {
-            throw new IllegalArgumentException("Damage id must be greater than 0");
-        }
-
         Damage damage = damageRepository.getDamageById(damageId);
 
         if (damage == null)
         {
-            throw new DamageNotFoundException("No damage found with damage id: " + damageId);
+            throw new DamageNotFoundException("Ingen skade fundet med nummer: " + damageId);
         }
 
         return damage;
@@ -73,9 +71,9 @@ public class DamageService
 
     public List<Damage> getAllDamagesByRentalId(int rentalId)
     {
-        if (rentalId <= 0)
+        if (rentalAgreementRepository.getRentalAgreementByRentalId(rentalId) == null)
         {
-            throw new IllegalArgumentException("Rental id must be greater than 0");
+            throw new RentalAgreementNotFoundException("Kunne ikke finde lejeaftale med id: " + rentalId);
         }
 
         return damageRepository.getAllDamagesByRentalId(rentalId);
@@ -83,11 +81,10 @@ public class DamageService
 
     public BigDecimal getTotalDamagePriceByRentalId(int rentalId)
     {
-        if (rentalId <= 0)
+        if (rentalAgreementRepository.getRentalAgreementByRentalId(rentalId) == null)
         {
-            throw new IllegalArgumentException("Rental id must be greater than 0");
+            throw new RentalAgreementNotFoundException("Kunne ikke finde lejeaftale med id: " + rentalId);
         }
-
 
         return damageRepository.getTotalDamagePriceByRentalId(rentalId);
     }
@@ -95,22 +92,22 @@ public class DamageService
     {
         if (damage == null)
         {
-            throw new IllegalArgumentException("Damage cannot be null");
+            throw new IllegalArgumentException("Fejl ved opdatering af skade");
         }
 
-        if (damage.getRentalId() <= 0)
+        if (rentalAgreementRepository.getRentalAgreementByRentalId(damage.getRentalId()) == null)
         {
-            throw new IllegalArgumentException("Rental id must be greater than 0");
+            throw new RentalAgreementNotFoundException("Kunne ikke finde lejeaftale med id: " + damage.getRentalId());
         }
 
         if (!DescriptionValidation.isDescriptionValid(damage.getDescription()))
         {
-            throw new InvalidDescriptionException("Invalid damage description");
+            throw new InvalidDescriptionException("Ugyldig beskrivelse af skade");
         }
 
         if (!PriceValidation.isPriceValid(damage.getPrice()))
         {
-            throw new InvalidPriceException("Invalid price for damage");
+            throw new InvalidPriceException("Ugyldig pris på skade");
         }
 
         damageRepository.updateDamage(damage);
@@ -118,9 +115,9 @@ public class DamageService
 
     public void deleteDamage(int damageId)
     {
-        if (damageId <= 0)
+        if (damageRepository.getDamageById(damageId) == null)
         {
-            throw new IllegalArgumentException("Damage id must be greater than 0");
+            throw new DamageNotFoundException("Kunne ikke finde skade med id: " + damageId);
         }
 
         damageRepository.deleteDamage(damageId);
