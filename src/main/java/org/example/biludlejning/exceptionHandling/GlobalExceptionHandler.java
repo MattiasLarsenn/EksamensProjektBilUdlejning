@@ -121,15 +121,6 @@ public class GlobalExceptionHandler
         return mav;
     }
 
-    @ExceptionHandler(Exception.class)
-    public ModelAndView handleGeneralException(Exception e)
-    {
-        ModelAndView mav = new ModelAndView("errors/error");
-
-        mav.addObject("errorMessage", "Der opstod en uventet fejl: " + e.getMessage());
-
-        return mav;
-    }
     @ExceptionHandler(CarNotFoundException.class)
     public ModelAndView handleCarNotFound(CarNotFoundException e)
     {
@@ -150,6 +141,15 @@ public class GlobalExceptionHandler
         return mav;
     }
 
+    @ExceptionHandler(Exception.class)
+    public ModelAndView handleGeneralException(Exception e)
+    {
+        ModelAndView mav = new ModelAndView("errors/error");
+
+        mav.addObject("errorMessage", "Der opstod en uventet fejl");
+
+        return mav;
+    }
 
 
 
