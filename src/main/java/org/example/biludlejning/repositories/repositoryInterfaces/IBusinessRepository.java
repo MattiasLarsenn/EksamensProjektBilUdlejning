@@ -18,5 +18,4 @@ public interface IBusinessRepository
 
     boolean isCarRented(int carId);
 
-    void updateCarStatus(int carId, String status);
 }
