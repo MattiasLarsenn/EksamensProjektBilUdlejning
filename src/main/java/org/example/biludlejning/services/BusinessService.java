@@ -2,7 +2,6 @@ package org.example.biludlejning.services;
 
 
 import org.example.biludlejning.models.RentalAgreement;
-import org.example.biludlejning.repositories.BusinessRepository;
 import org.example.biludlejning.repositories.repositoryInterfaces.IBusinessRepository;
 import org.example.biludlejning.repositories.repositoryInterfaces.IRentalAgreementRepository;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,6 @@ public class BusinessService
 
     public BusinessService(IBusinessRepository businessRepository, IRentalAgreementRepository rentalAgreementRepository)
     {
-
         this.businessRepository = businessRepository;
         this.rentalAgreementRepository = rentalAgreementRepository;
     }

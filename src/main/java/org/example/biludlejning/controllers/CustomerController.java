@@ -45,12 +45,13 @@ public class CustomerController
         model.addAttribute("customers", customerService.getAllCustomers());
         return "customer-list";
     }
+
     @GetMapping("/customer-edit")
     public String showCustomerEdit(@RequestParam int customerId, Model model)
     {
         sidebarModelHelper.addSidebarState(model, "customers", "CUSTOMER");
         model.addAttribute("customer", customerService.getCustomerById(customerId));
-        return "customer-edit";
+        return "fragments/customer-edit";
     }
 
     @PostMapping("/customer-edit")
