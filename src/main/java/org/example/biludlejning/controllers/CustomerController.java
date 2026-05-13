@@ -45,5 +45,17 @@ public class CustomerController
         model.addAttribute("customers", customerService.getAllCustomers());
         return "customer-list";
     }
+    @PostMapping("/customer-edit")
+    public String submitCustomerEdit(@RequestParam int customerId,
+                                     @RequestParam String name,
+                                     @RequestParam String email,
+                                     @RequestParam String phone)
+    {
+        Customer customer = new Customer(customerId, name, email, phone);
+        customerService.updateCustomer(customer);
+        System.out.println("Customer updated successfully");
+
+        return "redirect:/customer-list";
+    }
 
 }

@@ -1,0 +1,151 @@
+/* customer-edit.css — arver farvetema fra customer.css */
+
+main {
+    flex: 1;
+    padding: 2.35rem 2.7rem 3.5rem;
+    background:
+            radial-gradient(
+                    circle at 20% -40%,
+                    rgba(255, 196, 61, 0.16),
+                    transparent 58%
+            ),
+            linear-gradient(180deg, #070913 0%, #070914 100%);
+}
+
+.header {
+    max-width: 1180px;
+    margin: 0 auto 1.68rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.4rem;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: clamp(3.1rem, 4.2vw, 4.2rem);
+    line-height: 1;
+    color: #f6f7fb;
+    letter-spacing: -0.02em;
+    font-family: "Georgia", "Times New Roman", serif;
+}
+
+.header .highlight {
+    color: #f5be4c;
+    font-style: italic;
+}
+
+.header p {
+    color: #8f95ac;
+    margin: 0.66rem 0 0;
+    font-size: 1.2rem;
+}
+
+.back-btn {
+    margin-top: 0;
+    background: rgba(9, 17, 30, 0.78);
+    color: #d3d6e1;
+    border: 1px solid rgba(210, 218, 236, 0.15);
+    border-radius: 999px;
+    padding: 0.74rem 1.5rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition:
+            border-color 0.2s ease,
+            color 0.2s ease;
+    font-size: 1.13rem;
+}
+
+.back-btn:hover {
+    border-color: rgba(245, 190, 76, 0.55);
+    color: #f0f2f9;
+}
+
+.customer-form {
+    background: #181d2b;
+    border: 1px solid rgba(137, 149, 180, 0.17);
+    padding: 1.86rem 1.92rem 2.04rem;
+    border-radius: 14px;
+    max-width: 1180px;
+    margin: 0 auto;
+    box-shadow: 0 16px 40px rgba(2, 5, 15, 0.55);
+}
+
+.customer-form label {
+    display: block;
+    margin: 1.03rem 0 0.62rem;
+    font-size: 0.91rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #7e859c;
+    font-weight: 700;
+}
+
+.customer-form input {
+    width: 100%;
+    height: 3.18rem;
+    padding: 0.82rem 1.02rem;
+    margin-top: 0.35rem;
+    border-radius: 10px;
+    border: 1px solid #293248;
+    background: #0b111c;
+    color: #f4f6fb;
+    font-size: 1.1rem;
+    box-sizing: border-box;
+}
+
+.customer-form input:focus {
+    outline: none;
+    border-color: #f5be4c;
+    box-shadow: 0 0 0 2px rgba(245, 190, 76, 0.2);
+}
+
+.customer-form .buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.96rem;
+    margin-top: 2.1rem;
+}
+
+.customer-form .cancel,
+.customer-form .register {
+    border: none;
+    border-radius: 999px;
+    padding: 0.79rem 1.62rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.customer-form .cancel {
+    background: #20283a;
+    color: #d3d8e8;
+    border: 1px solid rgba(173, 184, 212, 0.2);
+}
+
+.customer-form .register {
+    background: linear-gradient(135deg, #f7cf67 0%, #eeb94a 100%);
+    color: #1f2130;
+}
+
+@media (max-width: 980px) {
+    main {
+        padding: 1.4rem 1.15rem 2rem;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 760px) {
+    .customer-form .buttons {
+        justify-content: stretch;
+    }
+
+    .customer-form .cancel,
+    .customer-form .register {
+        flex: 1;
+    }
+}

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Rediger kunde</title>
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/sidebar.css" />
+    <link rel="stylesheet" href="/css/customer-edit.css" />
+</head>
+<body>
+<div class="container">
+    <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
+    <main>
+        <div class="header">
+            <h1>Rediger <span class="highlight">kunde</span></h1>
+            <p>Opdater oplysningerne for en eksisterende kunde.</p>
+            <button
+                    class="back-btn"
+                    onclick="window.location.href = '/customer-list'"
+            >
+                &larr; Tilbage
+            </button>
+        </div>
+        <form
+                class="customer-form"
+                th:action="@{/customer-edit}"
+                method="post"
+        >
+            <input type="hidden" name="customerId" th:value="${customer.customerId}" />
+            <label>
+                Navn
+                <input
+                        type="text"
+                        name="name"
+                        th:value="${customer.name}"
+                        placeholder="Indtast kundens navn"
+                        required
+                />
+            </label>
+            <label>
+                Email
+                <input
+                        type="email"
+                        name="email"
+                        th:value="${customer.email}"
+                        placeholder="Indtast email adresse"
+                        required
+                />
+            </label>
+            <label>
+                Telefon
+                <input
+                        type="tel"
+                        name="phone"
+                        th:value="${customer.phone}"
+                        placeholder="Indtast telefonnummer"
+                        required
+                />
+            </label>
+            <div class="buttons">
+                <button
+                        type="button"
+                        class="cancel"
+                        onclick="window.location.href = '/customer-list'"
+                >
+                    Annuller
+                </button>
+                <button type="submit" class="register">Gem ændringer</button>
+            </div>
+        </form>
+    </main>
+</div>
+</body>
+</html>
