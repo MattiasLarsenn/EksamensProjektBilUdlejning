@@ -29,7 +29,7 @@ public class BusinessRepository implements IBusinessRepository
         try (Connection database = conn.getConnection();
              PreparedStatement ps = database.prepareStatement(sql))
         {
-            ps.setString(1, "active");
+            ps.setString(1, "aktiv");
             ResultSet rs = ps.executeQuery();
 
            if (rs.next())
@@ -53,7 +53,7 @@ public class BusinessRepository implements IBusinessRepository
         try (Connection database = conn.getConnection();
              PreparedStatement ps = database.prepareStatement(sql))
         {
-            ps.setString(1, "available");
+            ps.setString(1, "ledig");
             ResultSet rs = ps.executeQuery();
 
             if (rs.next())
