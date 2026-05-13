@@ -135,4 +135,35 @@ public class RentalAgreementRepository implements IRentalAgreementRepository
         }
         return false;
     }
+
+    public List<RentalAgreement> getAllActiveRentalAgreements()
+    {
+        String sql = "SELECT * FROM rentalAgreement WHERE status = ?";
+        List<RentalAgreement> activeRentalAgreements = new ArrayList<>();
+
+        try (Connection database = conn.getConnection();
+             PreparedStatement ps = database.prepareStatement(sql))
+        {
+           ps.setString(1, "aktiv");
+           ResultSet rs = ps.executeQuery();
+
+           while (rs.next())
+           {
+               activeRentalAgreements.add(new RentalAgreement (
+                       rs.getInt("rental_id"),
+                       rs.getInt("car_id"),
+                       rs.getInt("customer_id"),
+                       rs.getDate("start_date").toLocalDate(),
+                       rs.getDate("end_date").toLocalDate(),
+                       rs.getBigDecimal("price"),
+                       rs.getString("status")
+                       ));
+           }
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Error retrieving all active agreements: " + e.getMessage());
+        }
+        return activeRentalAgreements;
+    }
 }

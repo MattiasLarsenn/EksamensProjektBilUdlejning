@@ -150,4 +150,26 @@ public class CustomerRepository implements ICustomerRepository
         return false;
     }
 
+    public String getCustomerNameByRentalId(int rentalId)
+    {
+        String sql = "SELECT customer.name FROM rentalAgreement JOIN customer ON rentalAgreement.customer_id = customer.customer_id WHERE rentalAgreement.rental_id = ?";
+
+        try (Connection database = conn.getConnection();
+             PreparedStatement ps = database.prepareStatement(sql))
+        {
+            ps.setInt(1, rentalId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next())
+            {
+                return rs.getString("name");
+            }
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Error retrieving customer name by rental id");
+        }
+        return null;
+    }
+
 }

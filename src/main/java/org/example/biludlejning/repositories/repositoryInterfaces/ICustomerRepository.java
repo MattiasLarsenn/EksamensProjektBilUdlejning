@@ -17,4 +17,6 @@ public interface ICustomerRepository
     boolean customerExists(int customerId);
 
     Customer getCustomerById(int customerId);
+
+    String getCustomerNameByRentalId(int rentalId);
 }

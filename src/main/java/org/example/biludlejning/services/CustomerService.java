@@ -78,4 +78,9 @@ public class CustomerService
     {
         return customerRepository.getAllCustomers();
     }
+
+    public String getCustomerNameByRentalId(int rentalId)
+    {
+        return customerRepository.getCustomerNameByRentalId(rentalId);
+    }
 }
