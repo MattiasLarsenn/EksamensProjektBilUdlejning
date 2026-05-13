@@ -98,9 +98,7 @@
                 </tr>
                 <tr th:each="agreement, stat : ${activeAgreements}">
                   <td th:text="' #' + ${stat.count}">#1</td>
-                  <td th:text="${customerNamesList[stat.index]}">
-                    Kunde Navn
-                  </td>
+                  <td th:text="${customerNamesList[stat.index]}">Kunde Navn</td>
                   <td th:text="'Bil ID ' + ${agreement.carId}">Bil ID 1</td>
                   <td
                     th:text="${#temporals.format(agreement.startDate, 'dd-MM-yy')} + ' - ' + ${#temporals.format(agreement.endDate, 'dd-MM-yy')}"
