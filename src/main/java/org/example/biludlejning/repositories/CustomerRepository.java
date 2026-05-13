@@ -75,7 +75,34 @@ public class CustomerRepository implements ICustomerRepository
         }
     }
 
-    public List<Customer> getAllCustomers()
+    public Customer getCustomerById(int customerId)
+    {
+        String sql = "SELECT * FROM customer WHERE customer_id = ?";
+
+        try (Connection database = conn.getConnection();
+             PreparedStatement ps = database.prepareStatement(sql))
+        {
+            ps.setInt(1, customerId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next())
+            {
+                return new Customer(
+                        rs.getInt("customer_id"),
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("phone")
+                );
+            }
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Error while retrieving customer: " + e.getMessage());
+        }
+        return null;
+    }
+
+        public List<Customer> getAllCustomers()
     {
         String sql = "SELECT * FROM customer";
         List<Customer> customers = new ArrayList<>();
@@ -122,4 +149,5 @@ public class CustomerRepository implements ICustomerRepository
         }
         return false;
     }
+
 }
