@@ -197,6 +197,27 @@ public class BusinessRepository implements IBusinessRepository
         return false;
     }
 
-    
+    public String getBrandAndModelByRentalId(int rentalId)
+    {
+        String sql = "SELECT car.brand, car.model FROM rentalAgreement JOIN car ON rentalAgreement.car_id = car.car_id WHERE rentalAgreement.rental_id = ?";
+
+        try (Connection database = conn.getConnection();
+             PreparedStatement ps = database.prepareStatement(sql))
+        {
+            ps.setInt(1, rentalId);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next())
+            {
+                return rs.getString("brand") + " " + rs.getString("model");
+            }
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Error retrieving brand and model by rental id");
+        }
+        return null;
+    }
     
 }

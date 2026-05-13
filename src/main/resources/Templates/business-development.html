@@ -71,7 +71,7 @@
               <p th:text="${inRepairCount}">0</p>
             </article>
             <article class="status-box">
-              <h4>LEASED</h4>
+              <h4>UDLEJET</h4>
               <p th:text="${leasedCarCount}">0</p>
             </article>
           </div>
@@ -96,12 +96,12 @@
                     Ingen aktive aftaler fundet.
                   </td>
                 </tr>
-                <tr th:each="agreement, stat : ${activeAgreements}">
-                  <td th:text="' #' + ${stat.count}">#1</td>
-                  <td th:text="'Kunde ID ' + ${agreement.customerId}">
-                    Kunde ID 1
+                <tr th:each="agreement: ${activeAgreements}">
+                  <td th:text="' #' + ${agreement.rentalId}">#1</td>
+                  <td th:text="${@customerService.getCustomerNameByRentalId(agreement.rentalId)}">
+
                   </td>
-                  <td th:text="'Bil ID ' + ${agreement.carId}">Bil ID 1</td>
+                  <td th:text="${@businessService.getBrandAndModelByRentalId(agreement.rentalId)}"></td>
                   <td
                     th:text="${#temporals.format(agreement.startDate, 'dd-MM-yy')} + ' - ' + ${#temporals.format(agreement.endDate, 'dd-MM-yy')}"
                   >

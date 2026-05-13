@@ -14,5 +14,7 @@ public interface IRentalAgreementRepository
 
     boolean isRentalAgreementActive(int rentalId);
 
+    List<RentalAgreement> getAllActiveRentalAgreements();
+
 
 }

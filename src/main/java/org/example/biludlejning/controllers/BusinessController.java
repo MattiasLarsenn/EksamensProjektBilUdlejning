@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.example.biludlejning.models.RentalAgreement;
 import org.example.biludlejning.services.BusinessService;
+import org.example.biludlejning.services.CustomerService;
 import org.example.biludlejning.services.DamageService;
 import org.example.biludlejning.services.RentalAgreementService;
 import org.springframework.stereotype.Controller;
@@ -44,11 +45,7 @@ public class BusinessController
         int inRepairCount = Math.min(openDamageCount, Math.max(totalCarCount - availableCarCount - leasedCarCount, 0));
         BigDecimal totalFleetValue = monthlyRevenue.multiply(BigDecimal.valueOf(12));
 
-        List<RentalAgreement> activeAgreements = rentalAgreementService.getAllRentalAgreements()
-                .stream()
-            .filter(agreement -> "aktiv".equalsIgnoreCase(agreement.getStatus())
-                || "active".equalsIgnoreCase(agreement.getStatus()))
-                .toList();
+        List<RentalAgreement> activeAgreements = businessService.getAllActiveRentalAgreements();
 
         model.addAttribute("activeRentalCount", activeRentalCount);
         model.addAttribute("monthlyRevenue", monthlyRevenue);

@@ -18,4 +18,6 @@ public interface IBusinessRepository
 
     boolean isCarRented(int carId);
 
+    String getBrandAndModelByRentalId(int rentalId);
+
 }

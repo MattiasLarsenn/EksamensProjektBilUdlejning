@@ -1,20 +1,26 @@
 package org.example.biludlejning.services;
 
 
+import org.example.biludlejning.models.RentalAgreement;
 import org.example.biludlejning.repositories.BusinessRepository;
 import org.example.biludlejning.repositories.repositoryInterfaces.IBusinessRepository;
+import org.example.biludlejning.repositories.repositoryInterfaces.IRentalAgreementRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class BusinessService
 {
     private final IBusinessRepository businessRepository;
+    private final IRentalAgreementRepository rentalAgreementRepository;
 
-    public BusinessService(IBusinessRepository businessRepository)
+    public BusinessService(IBusinessRepository businessRepository, IRentalAgreementRepository rentalAgreementRepository)
     {
+
         this.businessRepository = businessRepository;
+        this.rentalAgreementRepository = rentalAgreementRepository;
     }
 
     public int getActiveRentalCount()
@@ -40,6 +46,16 @@ public class BusinessService
     public BigDecimal getTotalDamageCost()
     {
         return businessRepository.getTotalDamageCost();
+    }
+
+    public List<RentalAgreement> getAllActiveRentalAgreements()
+    {
+        return rentalAgreementRepository.getAllActiveRentalAgreements();
+    }
+
+    public String getBrandAndModelByRentalId(int rentalId)
+    {
+        return businessRepository.getBrandAndModelByRentalId(rentalId);
     }
 
 }
