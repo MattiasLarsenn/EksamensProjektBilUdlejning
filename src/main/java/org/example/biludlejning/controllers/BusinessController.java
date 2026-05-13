@@ -42,7 +42,6 @@ public class BusinessController
 
         int leasedCarCount = activeRentalCount;
         int inRepairCount = Math.min(openDamageCount, Math.max(totalCarCount - availableCarCount - leasedCarCount, 0));
-        int readyForSaleCount = Math.max(totalCarCount - availableCarCount - leasedCarCount - inRepairCount, 0);
         BigDecimal totalFleetValue = monthlyRevenue.multiply(BigDecimal.valueOf(12));
 
         List<RentalAgreement> activeAgreements = rentalAgreementService.getAllRentalAgreements()
@@ -59,7 +58,6 @@ public class BusinessController
         model.addAttribute("availableCarCount", availableCarCount);
         model.addAttribute("inRepairCount", inRepairCount);
         model.addAttribute("leasedCarCount", leasedCarCount);
-        model.addAttribute("readyForSaleCount", readyForSaleCount);
         model.addAttribute("activeAgreements", activeAgreements);
         sidebarModelHelper.addSidebarState(model, "business", "BUSINESS");
         return "business-development";
