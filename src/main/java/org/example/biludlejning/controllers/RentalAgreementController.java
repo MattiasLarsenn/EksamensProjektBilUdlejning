@@ -38,14 +38,12 @@ public class RentalAgreementController
                                         @RequestParam(required = false) Integer customerId,
                                         @RequestParam(required = false) String startDate,
                                         @RequestParam(required = false) String endDate,
-                                        @RequestParam(required = false) BigDecimal price,
-                                        @RequestParam(required = false) String status,
-                                        Model model)
+                                        @RequestParam(required = false) BigDecimal price)
     {
 
         LocalDate start = LocalDate.parse(startDate);
         LocalDate end = LocalDate.parse(endDate);
-        RentalAgreement rentalAgreement = new RentalAgreement(carId, customerId, start, end, price, status);
+        RentalAgreement rentalAgreement = new RentalAgreement(carId, customerId, start, end, price, "kommende");
         rentalAgreementService.createRentalAgreement(rentalAgreement);
         System.out.println("Rental agreement created successfully");
 
