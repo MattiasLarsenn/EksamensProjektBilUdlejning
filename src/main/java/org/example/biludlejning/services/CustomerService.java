@@ -69,6 +69,10 @@ public class CustomerService
         }
         customerRepository.updateCustomer(customer);
     }
+    public Customer getCustomerById(int customerId)
+    {
+        return customerRepository.getCustomerById(customerId);
+    }
 
     public List<Customer> getAllCustomers()
     {

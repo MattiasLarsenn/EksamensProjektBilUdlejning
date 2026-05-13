@@ -45,5 +45,29 @@ public class CustomerController
         model.addAttribute("customers", customerService.getAllCustomers());
         return "customer-list";
     }
+    @GetMapping("/customer-edit")
+    public String showCustomerEdit(@RequestParam int customerId, Model model)
+    {
+        sidebarModelHelper.addSidebarState(model, "customers", "CUSTOMER");
+        model.addAttribute("customer", customerService.getCustomerById(customerId));
+        return "customer-edit";
+    }
+
+    @PostMapping("/customer-edit")
+    public String submitCustomerEdit(@RequestParam(required = false) Integer customerId,
+                                     @RequestParam(required = false) String name,
+                                     @RequestParam(required = false) String email,
+                                     @RequestParam(required = false) String phone)
+    {
+        Customer customer = customerService.getCustomerById(customerId);
+
+        customer.setName(name);
+        customer.setEmail(email);
+        customer.setPhone(phone);
+        customerService.updateCustomer(customer);
+        System.out.println("Customer updated successfully");
+
+        return "redirect:/customer-list";
+    }
 
 }

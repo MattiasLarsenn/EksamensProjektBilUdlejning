@@ -15,4 +15,6 @@ public interface ICustomerRepository
     List<Customer> getAllCustomers();
 
     boolean customerExists(int customerId);
+
+    Customer getCustomerById(int customerId);
 }
