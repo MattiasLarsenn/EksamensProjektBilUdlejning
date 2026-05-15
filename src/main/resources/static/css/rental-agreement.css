@@ -141,6 +141,17 @@ main {
   color: #1f2130;
 }
 
+.header .register {
+  border: none;
+  border-radius: 999px;
+  padding: 0.79rem 1.62rem;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.1rem;
+  background: linear-gradient(135deg, #f7cf67 0%, #eeb94a 100%);
+  color: #1f2130;
+}
+
 .rental-list {
   background: #181d2b;
   border: 1px solid rgba(137, 149, 180, 0.17);
