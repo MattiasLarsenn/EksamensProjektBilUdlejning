@@ -1,5 +1,6 @@
 package org.example.biludlejning.services;
 
+import org.example.biludlejning.exceptions.CustomerNotFoundException;
 import org.example.biludlejning.exceptions.InvalidEmailException;
 import org.example.biludlejning.exceptions.InvalidNameException;
 import org.example.biludlejning.exceptions.InvalidPhoneNumberException;
@@ -11,6 +12,7 @@ import org.example.biludlejning.validation.PhoneNumberValidation;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class CustomerService
@@ -69,9 +71,16 @@ public class CustomerService
         }
         customerRepository.updateCustomer(customer);
     }
+
     public Customer getCustomerById(int customerId)
     {
-        return customerRepository.getCustomerById(customerId);
+        Customer customer = customerRepository.getCustomerById(customerId);
+
+        if (customer == null)
+        {
+            throw new CustomerNotFoundException("Kunne ikke finde kunde med id: " + customerId);
+        }
+        return customer;
     }
 
     public List<Customer> getAllCustomers()
@@ -81,6 +90,13 @@ public class CustomerService
 
     public String getCustomerNameByRentalId(int rentalId)
     {
-        return customerRepository.getCustomerNameByRentalId(rentalId);
+        String customerName = customerRepository.getCustomerNameByRentalId(rentalId);
+
+        if (customerName == null)
+        {
+            throw new NoSuchElementException("Kunne ikke finde kundeinformation for lejeaftale med id: " + rentalId);
+        }
+
+        return customerName;
     }
 }

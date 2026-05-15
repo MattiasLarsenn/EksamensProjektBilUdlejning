@@ -264,8 +264,40 @@ public class DamageServiceTest
      @Test
      void shouldThrowExceptionWhenRentalIdDoesntExistInGetTotalPriceByRentalId()
      {
+         RentalAgreement rentalAgreement = new RentalAgreement(
+             1,
+             1,
+             1,
+             LocalDate.now(),
+             LocalDate.now().plusDays(7),
+             new BigDecimal("3000"),
+             "aktiv"
+         );
+
+         when(mockRentalAgreementRepository.getRentalAgreementByRentalId(1)).thenReturn(rentalAgreement);
+
+
          assertThrows(RentalAgreementNotFoundException.class, () ->
-                 service.getTotalDamagePriceByRentalId(1));
+                 service.getTotalDamagePriceByRentalId(2));
+     }
+
+     @Test
+     void shouldThrowExceptionWhenRentalIdDoesntExistInGetAllDamagesByRentalId()
+     {
+         RentalAgreement rentalAgreement = new RentalAgreement(
+                 1,
+                 1,
+                 1,
+                 LocalDate.now(),
+                 LocalDate.now().plusDays(7),
+                 new BigDecimal("3000"),
+                 "aktiv"
+         );
+
+         when(mockRentalAgreementRepository.getRentalAgreementByRentalId(1)).thenReturn(rentalAgreement);
+
+         assertThrows(RentalAgreementNotFoundException.class, () ->
+                 service.getAllDamagesByRentalId(2));
      }
 
     @Test

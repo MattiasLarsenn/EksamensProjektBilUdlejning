@@ -36,7 +36,7 @@ public class DamageService
 
         if (rentalAgreementRepository.getRentalAgreementByRentalId(damage.getRentalId()) == null)
         {
-            throw new RentalAgreementNotFoundException("Lejeaftale kunne ikke findes");
+            throw new RentalAgreementNotFoundException("Kunne ikke finde lejeaftale med id: " + damage.getRentalId());
         }
 
         if (!DescriptionValidation.isDescriptionValid(damage.getDescription()))
