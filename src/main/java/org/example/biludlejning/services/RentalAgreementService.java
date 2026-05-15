@@ -2,12 +2,7 @@ package org.example.biludlejning.services;
 
 import java.util.List;
 
-import org.example.biludlejning.exceptions.CarNotFoundException;
-import org.example.biludlejning.exceptions.CustomerNotFoundException;
-import org.example.biludlejning.exceptions.InvalidPriceException;
-import org.example.biludlejning.exceptions.InvalidRentalDateException;
-import org.example.biludlejning.exceptions.InvalidRentalStatusException;
-import org.example.biludlejning.exceptions.RentalAgreementNotFoundException;
+import org.example.biludlejning.exceptions.*;
 import org.example.biludlejning.models.RentalAgreement;
 import org.example.biludlejning.repositories.repositoryInterfaces.IBusinessRepository;
 import org.example.biludlejning.repositories.repositoryInterfaces.ICustomerRepository;
@@ -59,7 +54,7 @@ public class RentalAgreementService
 
         if (businessRepository.isCarRented(rentalAgreement.getCarId()))
         {
-            throw new IllegalArgumentException("Bil med id: " + rentalAgreement.getCarId() + " er allerede udlejet");
+            throw new CarAlreadyRentedException("Bil med id: " + rentalAgreement.getCarId() + " er allerede udlejet");
         }
 
         if (!customerRepository.customerExists(rentalAgreement.getCustomerId()))
@@ -76,6 +71,7 @@ public class RentalAgreementService
         {
             throw new InvalidRentalDateException("Ugyldig dato for lejeaftale");
         }
+
         if (!RentalStatusValidation.isStatusValid(rentalAgreement.getStatus()))
         {
             throw new InvalidRentalStatusException("Ugyldig status for lejeaftale");

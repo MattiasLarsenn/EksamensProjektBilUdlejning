@@ -1,18 +1,9 @@
 package org.example.biludlejning.exceptionHandling;
 
 import java.sql.SQLException;
+import java.util.NoSuchElementException;
 
-import org.example.biludlejning.exceptions.CarNotFoundException;
-import org.example.biludlejning.exceptions.CustomerNotFoundException;
-import org.example.biludlejning.exceptions.DamageNotFoundException;
-import org.example.biludlejning.exceptions.InvalidDescriptionException;
-import org.example.biludlejning.exceptions.InvalidEmailException;
-import org.example.biludlejning.exceptions.InvalidNameException;
-import org.example.biludlejning.exceptions.InvalidPhoneNumberException;
-import org.example.biludlejning.exceptions.InvalidPriceException;
-import org.example.biludlejning.exceptions.InvalidRentalDateException;
-import org.example.biludlejning.exceptions.InvalidRentalStatusException;
-import org.example.biludlejning.exceptions.RentalAgreementNotFoundException;
+import org.example.biludlejning.exceptions.*;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
@@ -150,6 +141,26 @@ public class GlobalExceptionHandler
         return mav;
     }
 
+    @ExceptionHandler(NoSuchElementException.class)
+    public ModelAndView handleNoSuchElement(NoSuchElementException e)
+    {
+        ModelAndView mav = new ModelAndView("errors/error");
+
+        mav.addObject("errorMessage", e.getMessage());
+
+        return mav;
+    }
+
+    @ExceptionHandler(CarAlreadyRentedException.class)
+    public ModelAndView handleCarAlreadyRented(CarAlreadyRentedException e)
+    {
+        ModelAndView mav = new ModelAndView("errors/error");
+
+        mav.addObject("errorMessage", e.getMessage());
+
+        return mav;
+    }
+
     @ExceptionHandler(Exception.class)
     public ModelAndView handleGeneralException(Exception e)
     {
@@ -159,6 +170,9 @@ public class GlobalExceptionHandler
 
         return mav;
     }
+
+
+
 
 
 

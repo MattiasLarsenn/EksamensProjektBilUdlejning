@@ -1,6 +1,5 @@
 package org.example.biludlejning.services;
 
-
 import org.example.biludlejning.models.RentalAgreement;
 import org.example.biludlejning.repositories.repositoryInterfaces.IBusinessRepository;
 import org.example.biludlejning.repositories.repositoryInterfaces.IRentalAgreementRepository;
@@ -8,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class BusinessService
@@ -53,7 +53,14 @@ public class BusinessService
 
     public String getBrandAndModelByRentalId(int rentalId)
     {
-        return businessRepository.getBrandAndModelByRentalId(rentalId);
+        String brandAndModel = businessRepository.getBrandAndModelByRentalId(rentalId);
+
+        if (brandAndModel == null)
+        {
+            throw new NoSuchElementException("Kunne ikke finde bilinformation for lejeaftale med id: " + rentalId);
+        }
+
+        return brandAndModel;
     }
 
 }

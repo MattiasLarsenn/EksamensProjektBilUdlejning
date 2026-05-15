@@ -2,12 +2,9 @@ package org.example.biludlejning.serviceTest;
 
 
 import org.example.biludlejning.exceptions.*;
-import org.example.biludlejning.models.Car;
-import org.example.biludlejning.models.Customer;
 import org.example.biludlejning.models.RentalAgreement;
 import org.example.biludlejning.repositories.repositoryInterfaces.IBusinessRepository;
 import org.example.biludlejning.repositories.repositoryInterfaces.ICustomerRepository;
-import org.example.biludlejning.repositories.repositoryInterfaces.IDamageRepository;
 import org.example.biludlejning.repositories.repositoryInterfaces.IRentalAgreementRepository;
 import org.example.biludlejning.services.RentalAgreementService;
 import org.junit.jupiter.api.BeforeEach;
@@ -255,6 +252,25 @@ public class RentalAgreementServiceTest
         boolean result = service.isRentalAgreementActive(1);
 
         assertFalse(result);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenCarIsAlreadyRented()
+    {
+        RentalAgreement rentalAgreement = new RentalAgreement(
+                1,
+                1,
+                LocalDate.now(),
+                LocalDate.now().plusDays(30),
+                new BigDecimal("5000"),
+                "aktiv"
+        );
+
+        when(mockBusinessRepository.carExists(1)).thenReturn(true);
+        when(mockBusinessRepository.isCarRented(1)).thenReturn(true);
+
+        assertThrows(CarAlreadyRentedException.class, () ->
+                service.createRentalAgreement(rentalAgreement));
     }
 
     @Test

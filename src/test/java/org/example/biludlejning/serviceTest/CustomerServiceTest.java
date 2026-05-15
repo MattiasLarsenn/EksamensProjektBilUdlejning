@@ -1,6 +1,7 @@
 package org.example.biludlejning.serviceTest;
 
 
+import org.example.biludlejning.exceptions.CustomerNotFoundException;
 import org.example.biludlejning.exceptions.InvalidEmailException;
 import org.example.biludlejning.exceptions.InvalidNameException;
 import org.example.biludlejning.exceptions.InvalidPhoneNumberException;
@@ -12,21 +13,21 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class CustomerServiceTest
 {
-    private ICustomerRepository mockRepository;
+    private ICustomerRepository mockCustomerRepository;
     private CustomerService service;
 
     @BeforeEach
     void setup()
     {
-        mockRepository = mock(ICustomerRepository.class);
-        service = new CustomerService(mockRepository);
+        mockCustomerRepository = mock(ICustomerRepository.class);
+        service = new CustomerService(mockCustomerRepository);
     }
 
     @Test
@@ -41,7 +42,7 @@ public class CustomerServiceTest
 
         service.createCustomer(customer);
 
-        verify(mockRepository)
+        verify(mockCustomerRepository)
                 .createCustomer(customer);
     }
 
@@ -106,12 +107,12 @@ public class CustomerServiceTest
 
         service.updateCustomer(customer);
 
-        verify(mockRepository)
+        verify(mockCustomerRepository)
                 .updateCustomer(customer);
     }
 
     @Test
-    void shouldThrowExceptionWhenCustomerIsNUllInUpdateCustomer()
+    void shouldThrowExceptionWhenCustomerIsNullInUpdateCustomer()
     {
         assertThrows(IllegalArgumentException.class, () ->
                 service.updateCustomer(null));
@@ -162,11 +163,62 @@ public class CustomerServiceTest
     @Test
     void shouldReturnAllCustomers()
     {
-        when(mockRepository.getAllCustomers())
+        when(mockCustomerRepository.getAllCustomers())
                 .thenReturn(new ArrayList<>());
 
         List<Customer> result = service.getAllCustomers();
 
         assertNotNull(result);
+    }
+
+    @Test
+    void shouldReturnCustomerById()
+    {
+        Customer customer = new Customer(
+                1,
+                "Jens Jensen",
+                "Jens@gmail.com",
+                "22345678"
+        );
+
+        when(mockCustomerRepository.getCustomerById(1)).thenReturn(customer);
+
+        Customer result = service.getCustomerById(1);
+
+        assertNotNull(result);
+        assertEquals(1, result.getCustomerId());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenCustomerIdDoesntExist()
+    {
+        Customer customer = new Customer(
+                1,
+                "Jens Jensen",
+                "Jens@gmail.com",
+                "22345678"
+        );
+
+        when(mockCustomerRepository.getCustomerById(1)).thenReturn(customer);
+
+        assertThrows(CustomerNotFoundException.class, () ->
+                service.getCustomerById(2));
+    }
+
+    @Test
+    void shouldReturnCustomerNameByRentalId()
+    {
+        when(mockCustomerRepository.getCustomerNameByRentalId(1)).thenReturn("Hans Jensen");
+
+        assertEquals("Hans Jensen", service.getCustomerNameByRentalId(1));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenCustomerNameByRentalIdWasntFound()
+    {
+        when(mockCustomerRepository.getCustomerNameByRentalId(1)).thenReturn("Hans Jensen");
+
+        assertThrows(NoSuchElementException.class, () ->
+                service.getCustomerNameByRentalId(2));
     }
 }
